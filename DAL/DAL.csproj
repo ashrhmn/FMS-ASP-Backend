@@ -31,8 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,7 +50,85 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccessFactory.cs" />
+    <Compile Include="Database\AgeClassEnum.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\City.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Family.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FmsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FmsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FmsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\FmsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FmsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Database\PurchasedTicket.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SeatClassEnum.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\SeatInfo.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Stoppage.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Transport.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\TransportSchedule.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\User.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\UserRoleEnum.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\UserRepo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="Database\FmsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FmsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Database\FmsModel.edmx.diagram">
+      <DependentUpon>FmsModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Database\FmsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FmsModel.edmx</DependentUpon>
+      <LastGenOutput>FmsModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Database\FmsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FmsModel.edmx</DependentUpon>
+      <LastGenOutput>FmsModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

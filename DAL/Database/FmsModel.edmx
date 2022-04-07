@@ -1,0 +1,901 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FmsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AgeClassEnums">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Families">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="PurchasedTickets">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromStoppageId" Type="int" Nullable="false" />
+          <Property Name="ToStoppageId" Type="int" Nullable="false" />
+          <Property Name="PurchasedBy" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeatClassEnums">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SeatInfos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="SeatNo" Type="int" />
+          <Property Name="TicketId" Type="int" />
+          <Property Name="TransportId" Type="int" />
+          <Property Name="AgeClass" Type="int" />
+          <Property Name="SeatClass" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Stoppages">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="RouteIndex" Type="int" />
+          <Property Name="FareFromRoot" Type="int" />
+        </EntityType>
+        <EntityType Name="Transports">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="MaximumSeat" Type="int" />
+          <Property Name="CreatedBy" Type="int" />
+        </EntityType>
+        <EntityType Name="TransportSchedules">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TransportId" Type="int" />
+          <Property Name="FromStoppageId" Type="int" />
+          <Property Name="ToStoppageId" Type="int" />
+          <Property Name="Day" Type="varchar" MaxLength="50" />
+          <Property Name="Time" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRoleEnums">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="255" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="FamilyId" Type="int" />
+          <Property Name="Address" Type="text" />
+          <Property Name="CityId" Type="int" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Role" Type="int" />
+        </EntityType>
+        <Association Name="FK_PurchasedTickets_Stopages">
+          <End Role="Stoppages" Type="Self.Stoppages" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="FromStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasedTickets_Stopages1">
+          <End Role="Stoppages" Type="Self.Stoppages" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="ToStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasedTickets_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="PurchasedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Infos_Purchased_Tickets">
+          <End Role="PurchasedTickets" Type="Self.PurchasedTickets" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchasedTickets">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatInfos_AgeClassEnums">
+          <End Role="AgeClassEnums" Type="Self.AgeClassEnums" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeClassEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="AgeClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatInfos_SeatClassEnums">
+          <End Role="SeatClassEnums" Type="Self.SeatClassEnums" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeatClassEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="SeatClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatInfos_Transports">
+          <End Role="Transports" Type="Self.Transports" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="TransportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stopages_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Stoppages" Type="Self.Stoppages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stoppages">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transports_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Transports" Type="Self.Transports" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transports">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Stopages">
+          <End Role="Stoppages" Type="Self.Stoppages" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="FromStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Stopages1">
+          <End Role="Stoppages" Type="Self.Stoppages" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="ToStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Transports">
+          <End Role="Transports" Type="Self.Transports" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedules" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="TransportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Families">
+          <End Role="Families" Type="Self.Families" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Families">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="FamilyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserRoleEnums">
+          <End Role="UserRoleEnums" Type="Self.UserRoleEnums" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoleEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FmsModelStoreContainer">
+          <EntitySet Name="AgeClassEnums" EntityType="Self.AgeClassEnums" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Families" EntityType="Self.Families" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchasedTickets" EntityType="Self.PurchasedTickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeatClassEnums" EntityType="Self.SeatClassEnums" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SeatInfos" EntityType="Self.SeatInfos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stoppages" EntityType="Self.Stoppages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transports" EntityType="Self.Transports" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TransportSchedules" EntityType="Self.TransportSchedules" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRoleEnums" EntityType="Self.UserRoleEnums" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_PurchasedTickets_Stopages" Association="Self.FK_PurchasedTickets_Stopages">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasedTickets_Stopages1" Association="Self.FK_PurchasedTickets_Stopages1">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasedTickets_Users" Association="Self.FK_PurchasedTickets_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Infos_Purchased_Tickets" Association="Self.FK_Seat_Infos_Purchased_Tickets">
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatInfos_AgeClassEnums" Association="Self.FK_SeatInfos_AgeClassEnums">
+            <End Role="AgeClassEnums" EntitySet="AgeClassEnums" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatInfos_SeatClassEnums" Association="Self.FK_SeatInfos_SeatClassEnums">
+            <End Role="SeatClassEnums" EntitySet="SeatClassEnums" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatInfos_Transports" Association="Self.FK_SeatInfos_Transports">
+            <End Role="Transports" EntitySet="Transports" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stopages_Cities" Association="Self.FK_Stopages_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Stoppages" EntitySet="Stoppages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transports_Users" Association="Self.FK_Transports_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Transports" EntitySet="Transports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Stopages" Association="Self.FK_TransportSchedules_Stopages">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Stopages1" Association="Self.FK_TransportSchedules_Stopages1">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Transports" Association="Self.FK_TransportSchedules_Transports">
+            <End Role="Transports" EntitySet="Transports" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Families" Association="Self.FK_Users_Families">
+            <End Role="Families" EntitySet="Families" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserRoleEnums" Association="Self.FK_Users_UserRoleEnums">
+            <End Role="UserRoleEnums" EntitySet="UserRoleEnums" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FmsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AgeClassEnum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SeatInfos" Relationship="Self.FK_SeatInfos_AgeClassEnums" FromRole="AgeClassEnums" ToRole="SeatInfos" />
+        </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Stoppages" Relationship="Self.FK_Stopages_Cities" FromRole="Cities" ToRole="Stoppages" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Cities" FromRole="Cities" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Family">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Families" FromRole="Families" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="PurchasedTicket">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromStoppageId" Type="Int32" Nullable="false" />
+          <Property Name="ToStoppageId" Type="Int32" Nullable="false" />
+          <Property Name="PurchasedBy" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Stoppage" Relationship="Self.FK_PurchasedTickets_Stopages" FromRole="PurchasedTickets" ToRole="Stoppages" />
+          <NavigationProperty Name="Stoppage1" Relationship="Self.FK_PurchasedTickets_Stopages1" FromRole="PurchasedTickets" ToRole="Stoppages" />
+          <NavigationProperty Name="User" Relationship="Self.FK_PurchasedTickets_Users" FromRole="PurchasedTickets" ToRole="Users" />
+          <NavigationProperty Name="SeatInfos" Relationship="Self.FK_Seat_Infos_Purchased_Tickets" FromRole="PurchasedTickets" ToRole="SeatInfos" />
+        </EntityType>
+        <EntityType Name="SeatClassEnum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SeatInfos" Relationship="Self.FK_SeatInfos_SeatClassEnums" FromRole="SeatClassEnums" ToRole="SeatInfos" />
+        </EntityType>
+        <EntityType Name="SeatInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="SeatNo" Type="Int32" />
+          <Property Name="TicketId" Type="Int32" />
+          <Property Name="TransportId" Type="Int32" />
+          <Property Name="AgeClass" Type="Int32" />
+          <Property Name="SeatClass" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AgeClassEnum" Relationship="Self.FK_SeatInfos_AgeClassEnums" FromRole="SeatInfos" ToRole="AgeClassEnums" />
+          <NavigationProperty Name="PurchasedTicket" Relationship="Self.FK_Seat_Infos_Purchased_Tickets" FromRole="SeatInfos" ToRole="PurchasedTickets" />
+          <NavigationProperty Name="SeatClassEnum" Relationship="Self.FK_SeatInfos_SeatClassEnums" FromRole="SeatInfos" ToRole="SeatClassEnums" />
+          <NavigationProperty Name="Transport" Relationship="Self.FK_SeatInfos_Transports" FromRole="SeatInfos" ToRole="Transports" />
+        </EntityType>
+        <EntityType Name="Stoppage">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="RouteIndex" Type="Int32" />
+          <Property Name="FareFromRoot" Type="Int32" />
+          <NavigationProperty Name="City" Relationship="Self.FK_Stopages_Cities" FromRole="Stoppages" ToRole="Cities" />
+          <NavigationProperty Name="PurchasedTickets" Relationship="Self.FK_PurchasedTickets_Stopages" FromRole="Stoppages" ToRole="PurchasedTickets" />
+          <NavigationProperty Name="PurchasedTickets1" Relationship="Self.FK_PurchasedTickets_Stopages1" FromRole="Stoppages" ToRole="PurchasedTickets" />
+          <NavigationProperty Name="TransportSchedules" Relationship="Self.FK_TransportSchedules_Stopages" FromRole="Stoppages" ToRole="TransportSchedules" />
+          <NavigationProperty Name="TransportSchedules1" Relationship="Self.FK_TransportSchedules_Stopages1" FromRole="Stoppages" ToRole="TransportSchedules" />
+        </EntityType>
+        <EntityType Name="Transport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MaximumSeat" Type="Int32" />
+          <Property Name="CreatedBy" Type="Int32" />
+          <NavigationProperty Name="SeatInfos" Relationship="Self.FK_SeatInfos_Transports" FromRole="Transports" ToRole="SeatInfos" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Transports_Users" FromRole="Transports" ToRole="Users" />
+          <NavigationProperty Name="TransportSchedules" Relationship="Self.FK_TransportSchedules_Transports" FromRole="Transports" ToRole="TransportSchedules" />
+        </EntityType>
+        <EntityType Name="TransportSchedule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TransportId" Type="Int32" />
+          <Property Name="FromStoppageId" Type="Int32" />
+          <Property Name="ToStoppageId" Type="Int32" />
+          <Property Name="Day" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Time" Type="Int32" />
+          <NavigationProperty Name="Stoppage" Relationship="Self.FK_TransportSchedules_Stopages" FromRole="TransportSchedules" ToRole="Stoppages" />
+          <NavigationProperty Name="Stoppage1" Relationship="Self.FK_TransportSchedules_Stopages1" FromRole="TransportSchedules" ToRole="Stoppages" />
+          <NavigationProperty Name="Transport" Relationship="Self.FK_TransportSchedules_Transports" FromRole="TransportSchedules" ToRole="Transports" />
+        </EntityType>
+        <EntityType Name="UserRoleEnum">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_UserRoleEnums" FromRole="UserRoleEnums" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="FamilyId" Type="Int32" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CityId" Type="Int32" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="Int32" />
+          <NavigationProperty Name="City" Relationship="Self.FK_Users_Cities" FromRole="Users" ToRole="Cities" />
+          <NavigationProperty Name="Family" Relationship="Self.FK_Users_Families" FromRole="Users" ToRole="Families" />
+          <NavigationProperty Name="PurchasedTickets" Relationship="Self.FK_PurchasedTickets_Users" FromRole="Users" ToRole="PurchasedTickets" />
+          <NavigationProperty Name="Transports" Relationship="Self.FK_Transports_Users" FromRole="Users" ToRole="Transports" />
+          <NavigationProperty Name="UserRoleEnum" Relationship="Self.FK_Users_UserRoleEnums" FromRole="Users" ToRole="UserRoleEnums" />
+        </EntityType>
+        <Association Name="FK_SeatInfos_AgeClassEnums">
+          <End Role="AgeClassEnums" Type="Self.AgeClassEnum" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AgeClassEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="AgeClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stopages_Cities">
+          <End Role="Cities" Type="Self.City" Multiplicity="0..1" />
+          <End Role="Stoppages" Type="Self.Stoppage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stoppages">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Cities">
+          <End Role="Cities" Type="Self.City" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="CityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Families">
+          <End Role="Families" Type="Self.Family" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Families">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="FamilyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasedTickets_Stopages">
+          <End Role="Stoppages" Type="Self.Stoppage" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="FromStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasedTickets_Stopages1">
+          <End Role="Stoppages" Type="Self.Stoppage" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="ToStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PurchasedTickets_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="PurchasedTickets" Type="Self.PurchasedTicket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PurchasedTickets">
+              <PropertyRef Name="PurchasedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Seat_Infos_Purchased_Tickets">
+          <End Role="PurchasedTickets" Type="Self.PurchasedTicket" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PurchasedTickets">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="TicketId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatInfos_SeatClassEnums">
+          <End Role="SeatClassEnums" Type="Self.SeatClassEnum" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SeatClassEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="SeatClass" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SeatInfos_Transports">
+          <End Role="Transports" Type="Self.Transport" Multiplicity="0..1" />
+          <End Role="SeatInfos" Type="Self.SeatInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SeatInfos">
+              <PropertyRef Name="TransportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Stopages">
+          <End Role="Stoppages" Type="Self.Stoppage" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="FromStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Stopages1">
+          <End Role="Stoppages" Type="Self.Stoppage" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stoppages">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="ToStoppageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transports_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Transports" Type="Self.Transport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Transports">
+              <PropertyRef Name="CreatedBy" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportSchedules_Transports">
+          <End Role="Transports" Type="Self.Transport" Multiplicity="0..1" />
+          <End Role="TransportSchedules" Type="Self.TransportSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Transports">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="TransportSchedules">
+              <PropertyRef Name="TransportId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_UserRoleEnums">
+          <End Role="UserRoleEnums" Type="Self.UserRoleEnum" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRoleEnums">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FmsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AgeClassEnums" EntityType="Self.AgeClassEnum" />
+          <EntitySet Name="Cities" EntityType="Self.City" />
+          <EntitySet Name="Families" EntityType="Self.Family" />
+          <EntitySet Name="PurchasedTickets" EntityType="Self.PurchasedTicket" />
+          <EntitySet Name="SeatClassEnums" EntityType="Self.SeatClassEnum" />
+          <EntitySet Name="SeatInfos" EntityType="Self.SeatInfo" />
+          <EntitySet Name="Stoppages" EntityType="Self.Stoppage" />
+          <EntitySet Name="Transports" EntityType="Self.Transport" />
+          <EntitySet Name="TransportSchedules" EntityType="Self.TransportSchedule" />
+          <EntitySet Name="UserRoleEnums" EntityType="Self.UserRoleEnum" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_SeatInfos_AgeClassEnums" Association="Self.FK_SeatInfos_AgeClassEnums">
+            <End Role="AgeClassEnums" EntitySet="AgeClassEnums" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stopages_Cities" Association="Self.FK_Stopages_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Stoppages" EntitySet="Stoppages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Cities" Association="Self.FK_Users_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Families" Association="Self.FK_Users_Families">
+            <End Role="Families" EntitySet="Families" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasedTickets_Stopages" Association="Self.FK_PurchasedTickets_Stopages">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasedTickets_Stopages1" Association="Self.FK_PurchasedTickets_Stopages1">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PurchasedTickets_Users" Association="Self.FK_PurchasedTickets_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Seat_Infos_Purchased_Tickets" Association="Self.FK_Seat_Infos_Purchased_Tickets">
+            <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatInfos_SeatClassEnums" Association="Self.FK_SeatInfos_SeatClassEnums">
+            <End Role="SeatClassEnums" EntitySet="SeatClassEnums" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SeatInfos_Transports" Association="Self.FK_SeatInfos_Transports">
+            <End Role="Transports" EntitySet="Transports" />
+            <End Role="SeatInfos" EntitySet="SeatInfos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Stopages" Association="Self.FK_TransportSchedules_Stopages">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Stopages1" Association="Self.FK_TransportSchedules_Stopages1">
+            <End Role="Stoppages" EntitySet="Stoppages" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transports_Users" Association="Self.FK_Transports_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Transports" EntitySet="Transports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportSchedules_Transports" Association="Self.FK_TransportSchedules_Transports">
+            <End Role="Transports" EntitySet="Transports" />
+            <End Role="TransportSchedules" EntitySet="TransportSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_UserRoleEnums" Association="Self.FK_Users_UserRoleEnums">
+            <End Role="UserRoleEnums" EntitySet="UserRoleEnums" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FmsModelStoreContainer" CdmEntityContainer="FmsEntities">
+          <EntitySetMapping Name="AgeClassEnums">
+            <EntityTypeMapping TypeName="FmsModel.AgeClassEnum">
+              <MappingFragment StoreEntitySet="AgeClassEnums">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="FmsModel.City">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Families">
+            <EntityTypeMapping TypeName="FmsModel.Family">
+              <MappingFragment StoreEntitySet="Families">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchasedTickets">
+            <EntityTypeMapping TypeName="FmsModel.PurchasedTicket">
+              <MappingFragment StoreEntitySet="PurchasedTickets">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FromStoppageId" ColumnName="FromStoppageId" />
+                <ScalarProperty Name="ToStoppageId" ColumnName="ToStoppageId" />
+                <ScalarProperty Name="PurchasedBy" ColumnName="PurchasedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeatClassEnums">
+            <EntityTypeMapping TypeName="FmsModel.SeatClassEnum">
+              <MappingFragment StoreEntitySet="SeatClassEnums">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SeatInfos">
+            <EntityTypeMapping TypeName="FmsModel.SeatInfo">
+              <MappingFragment StoreEntitySet="SeatInfos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="SeatNo" ColumnName="SeatNo" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="TransportId" ColumnName="TransportId" />
+                <ScalarProperty Name="AgeClass" ColumnName="AgeClass" />
+                <ScalarProperty Name="SeatClass" ColumnName="SeatClass" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stoppages">
+            <EntityTypeMapping TypeName="FmsModel.Stoppage">
+              <MappingFragment StoreEntitySet="Stoppages">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="RouteIndex" ColumnName="RouteIndex" />
+                <ScalarProperty Name="FareFromRoot" ColumnName="FareFromRoot" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transports">
+            <EntityTypeMapping TypeName="FmsModel.Transport">
+              <MappingFragment StoreEntitySet="Transports">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MaximumSeat" ColumnName="MaximumSeat" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransportSchedules">
+            <EntityTypeMapping TypeName="FmsModel.TransportSchedule">
+              <MappingFragment StoreEntitySet="TransportSchedules">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="TransportId" ColumnName="TransportId" />
+                <ScalarProperty Name="FromStoppageId" ColumnName="FromStoppageId" />
+                <ScalarProperty Name="ToStoppageId" ColumnName="ToStoppageId" />
+                <ScalarProperty Name="Day" ColumnName="Day" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoleEnums">
+            <EntityTypeMapping TypeName="FmsModel.UserRoleEnum">
+              <MappingFragment StoreEntitySet="UserRoleEnums">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="FmsModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="FamilyId" ColumnName="FamilyId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="CityId" ColumnName="CityId" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
