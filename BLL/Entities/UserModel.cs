@@ -37,12 +37,10 @@ namespace BLL.Entities
                 Phone = user.Phone,
                 Role = user.Role,
             };
-            if (extended)
-            {
-                model.Family = FamilyModel.FromDb(user.Family);
-                model.City = CityModel.FromDb(user.City);
-                model.RoleEnum = user.UserRoleEnum.Value;
-            }
+            if (!extended) return model;
+            model.Family = FamilyModel.FromDb(user.Family);
+            model.City = CityModel.FromDb(user.City);
+            model.RoleEnum = user.UserRoleEnum.Value;
             return model;
         }
         public User GetDbModel()
