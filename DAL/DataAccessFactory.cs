@@ -21,5 +21,10 @@ namespace DAL
         {
             return new StoppageRepo(Db);
         }
+
+        public static IRepository<PurchasedTicket, int> TicketDataAccess()
+        {
+            return new TicketRepo(Db);
+        }
     }
 }
