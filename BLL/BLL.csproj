@@ -48,6 +48,7 @@
     <Compile Include="Entities\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CityService.cs" />
+    <Compile Include="Services\StoppageService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
