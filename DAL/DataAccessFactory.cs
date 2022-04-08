@@ -16,5 +16,10 @@ namespace DAL
         {
             return new CityRepo(Db);
         }
+
+        public static IRepository<Stoppage, int> StoppageDataAccess()
+        {
+            return new StoppageRepo(Db);
+        }
     }
 }
