@@ -11,5 +11,10 @@ namespace DAL
         {
             return new UserRepo(Db);
         }
+
+        public static IRepository<City, int> CityDataAccess()
+        {
+            return new CityRepo(Db);
+        }
     }
 }
