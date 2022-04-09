@@ -26,5 +26,12 @@ namespace DAL
         {
             return new TicketRepo(Db);
         }
+
+        public static IRepository<SeatInfo, int> SeatInfoDataAccess()
+        {
+            return new SeatInfoRepo(Db);
+        }
+
+
     }
 }
