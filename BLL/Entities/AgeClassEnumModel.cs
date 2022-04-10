@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DAL.Database;
 
 namespace BLL.Entities
 {
@@ -10,5 +6,15 @@ namespace BLL.Entities
     {
         public int Id { get; set; }
         public string Value { get; set; }
+
+        public static AgeClassEnumModel FromDb(AgeClassEnum ageClassEnum)
+        {
+            return ageClassEnum == null ? null : new AgeClassEnumModel(){ Id = ageClassEnum.Id,Value = ageClassEnum.Value};
+        }
+
+        public AgeClassEnum GetDbModel()
+        {
+            return new AgeClassEnum() { Id = Id,Value = Value};
+        }
     }
 }

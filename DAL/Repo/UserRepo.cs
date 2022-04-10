@@ -38,10 +38,11 @@ namespace DAL.Repo
             return _db.Users.FirstOrDefault(u => u.Id == id);
         }
 
-        public bool Update(User obj)
+        public bool Update(int id, User obj)
         {
-            var user = _db.Users.FirstOrDefault(u => u.Id == obj.Id);
+            var user = _db.Users.FirstOrDefault(u => u.Id == id);
             if (user == null) return false;
+            obj.Id = id;
             _db.Users.AddOrUpdate(obj);
             return _db.SaveChanges() != 0;
         }

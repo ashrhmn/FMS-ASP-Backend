@@ -1,4 +1,6 @@
-﻿using DAL.Database;
+﻿using System.Collections.Generic;
+using System.Linq;
+using DAL.Database;
 
 namespace BLL.Entities
 {
@@ -11,6 +13,7 @@ namespace BLL.Entities
         public StoppageModel FromStoppage { get; set; }
         public StoppageModel ToStoppage { get; set; }
         public UserModel PurchasedByUser { get; set; }
+        public List<SeatInfoModel> SeatInfos { get; set; } = new List<SeatInfoModel>();
 
 
         public static PurchasedTicketModel FromDb(PurchasedTicket purchasedTicket, bool extended = false)
@@ -25,7 +28,7 @@ namespace BLL.Entities
             model.FromStoppage = StoppageModel.FromDb(purchasedTicket.Stoppage);
             model.ToStoppage = StoppageModel.FromDb(purchasedTicket.Stoppage1);
             model.PurchasedByUser = UserModel.FromDb(purchasedTicket.User);
-
+            model.SeatInfos = purchasedTicket.SeatInfos.Select(si => SeatInfoModel.FromDb(si)).ToList();
             return model;
         }
 

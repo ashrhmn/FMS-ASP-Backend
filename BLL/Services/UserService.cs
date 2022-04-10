@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.Entities;
 using DAL;
 
@@ -12,7 +9,6 @@ namespace BLL.Services
     {
         public static List<UserModel> GetAllUsers()
         {
-
             return DataAccessFactory.UserDataAccess().GetAll().Select(user => UserModel.FromDb(user, true)).ToList();
         }
 
@@ -26,9 +22,9 @@ namespace BLL.Services
             return DataAccessFactory.UserDataAccess().Add(userModel.GetDbModel());
         }
 
-        public static bool UpdateUser(UserModel userModel)
+        public static bool UpdateUser(int id,UserModel userModel)
         {
-            return DataAccessFactory.UserDataAccess().Update(userModel.GetDbModel());
+            return DataAccessFactory.UserDataAccess().Update(id,userModel.GetDbModel());
         }
 
         public static bool DeleteUser(int id)

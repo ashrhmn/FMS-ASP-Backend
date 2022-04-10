@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DAL.Database;
 
 namespace BLL.Entities
@@ -19,6 +21,8 @@ namespace BLL.Entities
         public FamilyModel Family { get; set; }
         public CityModel City { get; set; }
         public string RoleEnum { get; set; }
+        public List<TransportModel> CreatedTransports { get; set; } = new List<TransportModel>();
+        public List<PurchasedTicketModel> PurchasedTickets { get; set; } = new List<PurchasedTicketModel>();
 
         public static UserModel FromDb(User user, bool extended = false)
         {
@@ -41,6 +45,8 @@ namespace BLL.Entities
             model.Family = FamilyModel.FromDb(user.Family);
             model.City = CityModel.FromDb(user.City);
             model.RoleEnum = user.UserRoleEnum.Value;
+            model.CreatedTransports = user.Transports.Select(t => TransportModel.FromDb(t)).ToList();
+            model.PurchasedTickets = user.PurchasedTickets.Select(pt => PurchasedTicketModel.FromDb(pt)).ToList();
             return model;
         }
         public User GetDbModel()

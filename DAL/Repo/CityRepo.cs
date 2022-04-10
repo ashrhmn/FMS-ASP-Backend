@@ -1,9 +1,6 @@
 ﻿using DAL.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity.Migrations;
 
 namespace DAL.Repo
@@ -20,6 +17,15 @@ namespace DAL.Repo
         {
             if (obj == null) return false;
             _db.Cities.Add(obj);
+            return _db.SaveChanges() != 0;
+        }
+
+        public bool Update(int id, City obj)
+        {
+            var city = _db.Cities.FirstOrDefault(c => c.Id == id);
+            if (city == null) return false;
+            obj.Id = id;
+            _db.Cities.AddOrUpdate(obj);
             return _db.SaveChanges() != 0;
         }
 
@@ -40,14 +46,5 @@ namespace DAL.Repo
         {
             return _db.Cities.FirstOrDefault(c => c.Id == id);
         }
-
-        public bool Update(City obj)
-        {
-            var city = _db.Cities.FirstOrDefault(c => c.Id == obj.Id);
-            if (city == null) return false;
-            _db.Cities.AddOrUpdate(obj);
-            return _db.SaveChanges() != 0;
-        }
-
     }
 }

@@ -1,3 +1,4 @@
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,11 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Database;
 
+
 namespace BLL.Entities
 {
     public class TransportScheduleModel
     {
         public int Id { get; set; }
+
         public Nullable<int> TransportId { get; set; }
         public Nullable<int> FromStoppageId { get; set; }
         public Nullable<int> ToStoppageId { get; set; }
@@ -41,8 +44,10 @@ namespace BLL.Entities
 
         public TransportSchedule GetDbModel()
         {
+
             return new TransportSchedule() { Id = Id, TransportId = TransportId, FromStoppageId = FromStoppageId, ToStoppageId = ToStoppageId };
         }
+
 
 
 
