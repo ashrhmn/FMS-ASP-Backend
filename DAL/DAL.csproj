@@ -105,6 +105,8 @@
     <Compile Include="Repo\SeatInfoRepo.cs" />
     <Compile Include="Repo\StoppageRepo.cs" />
     <Compile Include="Repo\TicketRepo.cs" />
+    <Compile Include="Repo\TransportRepo.cs" />
+    <Compile Include="Repo\TransportScheduleRepo.cs" />
     <Compile Include="Repo\UserRepo.cs" />
   </ItemGroup>
   <ItemGroup />

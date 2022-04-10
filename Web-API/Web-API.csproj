@@ -96,6 +96,8 @@
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\StoppageController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
+    <Compile Include="Controllers\TransportController.cs" />
+    <Compile Include="Controllers\TransportScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
