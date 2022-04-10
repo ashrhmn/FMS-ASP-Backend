@@ -56,6 +56,8 @@
     <Compile Include="Services\SeatInfoService.cs" />
     <Compile Include="Services\StoppageService.cs" />
     <Compile Include="Services\TicketService.cs" />
+    <Compile Include="Services\TransportScheduleService.cs" />
+    <Compile Include="Services\TransportService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>
   <ItemGroup>

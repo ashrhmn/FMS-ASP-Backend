@@ -1,41 +1,55 @@
-﻿using DAL.Database;
+
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL.Database;
+
 
 namespace BLL.Entities
 {
     public class TransportScheduleModel
     {
         public int Id { get; set; }
-        public int? TransportId { get; set; }
-        public int? FromStoppageId { get; set; }
-        public int? ToStoppageId { get; set; }
-        public string Day { get; set; }
-        public int? Time { get; set; }
 
+        public Nullable<int> TransportId { get; set; }
+        public Nullable<int> FromStoppageId { get; set; }
+        public Nullable<int> ToStoppageId { get; set; }
+        public string Day { get; set; }
+        public Nullable<int> Time { get; set; }
+        public TransportModel Transport { get; set; }
         public StoppageModel FromStoppage { get; set; }
         public StoppageModel ToStoppage { get; set; }
-        public TransportModel Transport { get; set; }
 
-        public static TransportScheduleModel FromDb(TransportSchedule schedule, bool extended = false)
+        public static TransportScheduleModel FromDb(TransportSchedule transportSchedule, bool extended = false)
         {
+            if (transportSchedule == null) return null;
             var model = new TransportScheduleModel()
             {
-                Id = schedule.Id,
-                TransportId = schedule.TransportId,
-                FromStoppageId = schedule.FromStoppageId,
-                ToStoppageId = schedule.ToStoppageId,
-                Day = schedule.Day,
-                Time = schedule.Time
+                Id = transportSchedule.Id,
+                TransportId = transportSchedule.TransportId,
+                FromStoppageId = transportSchedule.FromStoppageId,
+                ToStoppageId = transportSchedule.ToStoppageId,
+                Day = transportSchedule.Day,
+                Time = transportSchedule.Time
             };
             if (!extended) return model;
-            model.FromStoppage = StoppageModel.FromDb(schedule.Stoppage);
-            model.ToStoppage = StoppageModel.FromDb(schedule.Stoppage1);
-            model.Transport = TransportModel.FromDb(schedule.Transport);
+            model.Transport = TransportModel.FromDb(transportSchedule.Transport);
+            model.FromStoppage = StoppageModel.FromDb(transportSchedule.Stoppage);
+            model.ToStoppage = StoppageModel.FromDb(transportSchedule.Stoppage1);
+
             return model;
         }
 
         public TransportSchedule GetDbModel()
         {
-            return new TransportSchedule() { Id = Id, Day = Day, FromStoppageId = FromStoppageId, ToStoppageId = ToStoppageId, Time = Time, TransportId = TransportId };
+
+            return new TransportSchedule() { Id = Id, TransportId = TransportId, FromStoppageId = FromStoppageId, ToStoppageId = ToStoppageId };
         }
+
+
+
+
     }
 }

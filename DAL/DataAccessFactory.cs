@@ -31,7 +31,14 @@ namespace DAL
         {
             return new SeatInfoRepo(Db);
         }
-
+        public static IRepository<Transport, int> TransportDataAccess()
+        {
+            return new TransportRepo(Db);
+        }
+        public static IRepository<TransportSchedule, int> TransportScheduleDataAccess()
+        {
+            return new TransportScheduleRepo(Db);
+        }
 
     }
 }
