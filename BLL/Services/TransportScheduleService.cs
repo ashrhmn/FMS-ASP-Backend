@@ -26,9 +26,9 @@ namespace BLL.Services
             return DataAccessFactory.TransportScheduleDataAccess().Add(transportScheduleModel.GetDbModel());
         }
 
-        public static bool UpdateTransportSchedule(TransportScheduleModel transportScheduleModel)
+        public static bool UpdateTransportSchedule(int id,TransportScheduleModel transportScheduleModel)
         {
-            return DataAccessFactory.TransportScheduleDataAccess().Update(transportScheduleModel.GetDbModel());
+            return DataAccessFactory.TransportScheduleDataAccess().Update(id,transportScheduleModel.GetDbModel());
         }
 
         public static bool DeleteTransportSchedule(int id)

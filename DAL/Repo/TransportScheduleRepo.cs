@@ -22,6 +22,15 @@ namespace DAL.Repo
             return db.SaveChanges() != 0;
         }
 
+        public bool Update(int id, TransportSchedule obj)
+        {
+            var t = db.TransportSchedules.FirstOrDefault(s => s.Id == id);
+            if (t == null) return false;
+            obj.Id = id;
+            db.Entry(t).CurrentValues.SetValues(obj);
+            return db.SaveChanges() != 0;
+        }
+
         public bool Delete(int id)
         {
             var t = db.TransportSchedules.FirstOrDefault(s => s.Id == id);
@@ -38,14 +47,6 @@ namespace DAL.Repo
         public TransportSchedule GetById(int id)
         {
             return db.TransportSchedules.FirstOrDefault(s => s.Id == id);
-        }
-
-        public bool Update(TransportSchedule obj)
-        {
-            var t = db.TransportSchedules.FirstOrDefault(s => s.Id == obj.Id);
-            if (t == null) return false;
-            db.Entry(t).CurrentValues.SetValues(obj);
-            return db.SaveChanges() != 0;
         }
     }
 }

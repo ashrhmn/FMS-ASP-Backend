@@ -34,7 +34,7 @@ namespace Web_API.Controllers
         // PUT api/transportschedule/{id}
         public HttpResponseMessage Put(int id, [FromBody] TransportScheduleModel transportScheduleModel)
         {
-            return TransportScheduleService.UpdateTransportSchedule(transportScheduleModel)
+            return TransportScheduleService.UpdateTransportSchedule(id,transportScheduleModel)
                 ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Transport Schedule");
         }

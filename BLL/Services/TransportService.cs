@@ -26,9 +26,9 @@ namespace BLL.Services
             return DataAccessFactory.TransportDataAccess().Add(transportModel.GetDbModel());
         }
 
-        public static bool UpdateTransport(TransportModel transportModel)
+        public static bool UpdateTransport(int id,TransportModel transportModel)
         {
-            return DataAccessFactory.TransportDataAccess().Update(transportModel.GetDbModel());
+            return DataAccessFactory.TransportDataAccess().Update(id,transportModel.GetDbModel());
         }
 
         public static bool DeleteTransport(int id)

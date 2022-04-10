@@ -34,7 +34,7 @@ namespace Web_API.Controllers
         // PUT api/transport/{id}
         public HttpResponseMessage Put(int id, [FromBody] TransportModel transportModel)
         {
-            return TransportService.UpdateTransport(transportModel)
+            return TransportService.UpdateTransport(id,transportModel)
                 ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Transport");
         }
