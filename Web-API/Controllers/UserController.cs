@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
@@ -32,7 +31,7 @@ namespace Web_API.Controllers
         // PUT api/<controller>/5
         public HttpResponseMessage Put(int id, [FromBody] UserModel userModel)
         {
-            return UserService.UpdateUser(userModel)
+            return UserService.UpdateUser(id,userModel)
                 ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating user");
         }

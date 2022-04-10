@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.Entities;
 using DAL;
 
@@ -26,9 +23,9 @@ namespace BLL.Services
             return DataAccessFactory.CityDataAccess().Add(cityModel.GetDbModel());
         }
 
-        public static bool UpdateCity(CityModel cityModel)
+        public static bool UpdateCity(int id,CityModel cityModel)
         {
-            return DataAccessFactory.CityDataAccess().Update(cityModel.GetDbModel());
+            return DataAccessFactory.CityDataAccess().Update(id,cityModel.GetDbModel());
         }
 
         public static bool DeleteCity(int id)

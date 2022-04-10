@@ -1,9 +1,6 @@
 ﻿using DAL.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity.Migrations;
 
 namespace DAL.Repo
@@ -40,11 +37,12 @@ namespace DAL.Repo
         {
             return _db.PurchasedTickets.FirstOrDefault(t => t.Id == id);
         }
-
-        public bool Update(PurchasedTicket obj)
+        
+        public bool Update(int id, PurchasedTicket obj)
         {
-            var ticket = _db.PurchasedTickets.FirstOrDefault(t => t.Id == obj.Id);
+            var ticket = _db.PurchasedTickets.FirstOrDefault(t => t.Id == id);
             if (ticket == null) return false;
+            obj.Id = id;
             _db.PurchasedTickets.AddOrUpdate(obj);
             return _db.SaveChanges() != 0;
         }

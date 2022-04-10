@@ -12,8 +12,8 @@ namespace BLL.Services
     {
         public static List<SeatInfoModel> GetAllTicket()
         {
-
-            return DataAccessFactory.SeatInfoDataAccess().GetAll().Select(city => PurchasedTicketModel.FromDb(city, true)).ToList();
+            //return DataAccessFactory.SeatInfoDataAccess().GetAll().Select(city => PurchasedTicketModel.FromDb(city, true)).ToList();
+            return null;
         }
 
         public static PurchasedTicketModel GetTicket(int id)
@@ -26,9 +26,9 @@ namespace BLL.Services
             return DataAccessFactory.TicketDataAccess().Add(ticketModel.GetDbModel());
         }
 
-        public static bool UpdateTicket(PurchasedTicketModel ticketModel)
+        public static bool UpdateTicket(int id,PurchasedTicketModel ticketModel)
         {
-            return DataAccessFactory.TicketDataAccess().Update(ticketModel.GetDbModel());
+            return DataAccessFactory.TicketDataAccess().Update(id,ticketModel.GetDbModel());
         }
 
         public static bool DeleteTicket(int id)

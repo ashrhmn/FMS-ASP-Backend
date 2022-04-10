@@ -24,6 +24,15 @@ namespace DAL.Repo
             return db.SaveChanges() != 0;
         }
 
+        public bool Update(int id, SeatInfo obj)
+        {
+            var seat = db.SeatInfos.FirstOrDefault(s => s.Id == id);
+            if (seat == null) return false;
+            obj.Id = id;
+            db.Entry(seat).CurrentValues.SetValues(obj);
+            return db.SaveChanges() != 0;
+        }
+
         public bool Delete(int id)
         {
             var seat = db.SeatInfos.FirstOrDefault(s => s.Id == id);
@@ -40,14 +49,6 @@ namespace DAL.Repo
         public SeatInfo GetById(int id)
         {
             return db.SeatInfos.FirstOrDefault(s => s.Id == id);
-        }
-
-        public bool Update(SeatInfo obj)
-        {
-            var seat = db.SeatInfos.FirstOrDefault(s => s.Id == obj.Id);
-            if (seat == null) return false;
-            db.Entry(seat).CurrentValues.SetValues(obj);
-            return db.SaveChanges() != 0;
         }
     }
 }
