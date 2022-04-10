@@ -2,7 +2,6 @@
 using System.Linq;
 using BLL.Entities;
 using DAL;
-using DAL.Database;
 
 namespace BLL.Services
 {
