@@ -1,9 +1,6 @@
 ﻿using DAL.Database;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity.Migrations;
 
 namespace DAL.Repo
@@ -23,6 +20,15 @@ namespace DAL.Repo
             return _db.SaveChanges() != 0;
         }
 
+        public bool Update(int id, Stoppage obj)
+        {
+            var stoppage = _db.Stoppages.FirstOrDefault(s => s.Id == id);
+            if (stoppage == null) return false;
+            obj.Id = id;
+            _db.Stoppages.AddOrUpdate(obj);
+            return _db.SaveChanges() != 0;
+        }
+
         public bool Delete(int id)
         {
             var stoppage = _db.Cities.FirstOrDefault(s => s.Id == id);
@@ -39,14 +45,6 @@ namespace DAL.Repo
         public Stoppage GetById(int id)
         {
             return _db.Stoppages.FirstOrDefault(s => s.Id == id);
-        }
-
-        public bool Update(Stoppage obj)
-        {
-            var stoppage = _db.Stoppages.FirstOrDefault(s => s.Id == obj.Id);
-            if (stoppage == null) return false;
-            _db.Stoppages.AddOrUpdate(obj);
-            return _db.SaveChanges() != 0;
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.Entities;
 using DAL;
 
@@ -26,9 +23,9 @@ namespace BLL.Services
             return DataAccessFactory.TicketDataAccess().Add(ticketModel.GetDbModel());
         }
 
-        public static bool UpdateTicket(PurchasedTicketModel ticketModel)
+        public static bool UpdateTicket(int id,PurchasedTicketModel ticketModel)
         {
-            return DataAccessFactory.TicketDataAccess().Update(ticketModel.GetDbModel());
+            return DataAccessFactory.TicketDataAccess().Update(id,ticketModel.GetDbModel());
         }
 
         public static bool DeleteTicket(int id)

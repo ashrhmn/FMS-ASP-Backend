@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BLL.Entities;
 using DAL;
 
@@ -26,9 +23,9 @@ namespace BLL.Services
             return DataAccessFactory.StoppageDataAccess().Add(stoppageModel.GetDbModel());
         }
 
-        public static bool UpdateStoppage(StoppageModel stoppageModel)
+        public static bool UpdateStoppage(int id,StoppageModel stoppageModel)
         {
-            return DataAccessFactory.StoppageDataAccess().Update(stoppageModel.GetDbModel());
+            return DataAccessFactory.StoppageDataAccess().Update(id,stoppageModel.GetDbModel());
         }
 
         public static bool DeleteStoppage(int id)

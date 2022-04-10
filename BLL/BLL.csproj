@@ -49,6 +49,7 @@
     <Compile Include="Entities\SeatInfoModel.cs" />
     <Compile Include="Entities\StoppageModel.cs" />
     <Compile Include="Entities\TransportModel.cs" />
+    <Compile Include="Entities\TransportScheduleModel.cs" />
     <Compile Include="Entities\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CityService.cs" />
