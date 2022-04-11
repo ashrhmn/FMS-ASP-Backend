@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CityController.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Controllers\StoppageController.cs" />
     <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Controllers\TransportController.cs" />
