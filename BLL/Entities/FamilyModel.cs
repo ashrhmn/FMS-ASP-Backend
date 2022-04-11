@@ -9,7 +9,9 @@ namespace BLL.Entities
 
         public static FamilyModel FromDb(Family family)
         {
+            if (family == null) return null;
             return family == null ? null : new FamilyModel() { Id = family.Id,Name = family.Name};
+
         }
 
         public Family GetDbModel()

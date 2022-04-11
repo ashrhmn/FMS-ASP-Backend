@@ -39,6 +39,10 @@ namespace DAL
         {
             return new TransportScheduleRepo(Db);
         }
+        public static IRepository<Family, int> FamilyDataAccess()
+        {
+            return new FamilyRepo(Db);
+        }
 
     }
 }
