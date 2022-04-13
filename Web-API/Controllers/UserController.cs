@@ -3,14 +3,18 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
 using BLL.Services;
+using Web_API.Auth;
+using Web_API.Models;
 
 namespace Web_API.Controllers
 {
+    [AuthorizedAccess("user")]
     public class UserController : ApiController
     {
         // GET api/<controller>
         public HttpResponseMessage Get()
         {
+            var user = RoleConst.User();
             return Request.CreateResponse(HttpStatusCode.OK, UserService.GetAllUsers());
         }
 

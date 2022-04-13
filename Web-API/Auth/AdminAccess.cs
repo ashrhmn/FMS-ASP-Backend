@@ -9,11 +9,11 @@ using System.Web.Http.Filters;
 
 namespace Web_API.Auth
 {
-    public class UserAccess:AuthorizationFilterAttribute
+    public class AdminAccess:AuthorizationFilterAttribute
     {
         public override void OnAuthorization(HttpActionContext actionContext)
         {
-            JwtManage.AuthorizeUser(actionContext,"user");
+            JwtManage.AuthorizeUser(actionContext,"admin");
             base.OnAuthorization(actionContext);
         }
     }
