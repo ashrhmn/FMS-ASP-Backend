@@ -19,6 +19,8 @@ namespace DAL.Database
         {
             this.PurchasedTickets = new HashSet<PurchasedTicket>();
             this.Transports = new HashSet<Transport>();
+            this.Payments = new HashSet<Payment>();
+            this.Payments1 = new HashSet<Payment>();
         }
     
         public int Id { get; set; }
@@ -40,5 +42,9 @@ namespace DAL.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transport> Transports { get; set; }
         public virtual UserRoleEnum UserRoleEnum { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Payment> Payments1 { get; set; }
     }
 }
