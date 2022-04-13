@@ -31,6 +31,11 @@
         <AssociationConnector Association="FmsModel.FK_Transports_Users" ManuallyRouted="false" />
         <AssociationConnector Association="FmsModel.FK_TransportSchedules_Transports" ManuallyRouted="false" />
         <AssociationConnector Association="FmsModel.FK_Users_UserRoleEnums" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FmsModel.Payment" Width="1.5" PointX="10.5" PointY="3.75" />
+        <EntityTypeShape EntityType="FmsModel.sysdiagram" Width="1.5" PointX="10.375" PointY="0.75" />
+        <AssociationConnector Association="FmsModel.FK_Payments_PurchasedTickets" />
+        <AssociationConnector Association="FmsModel.FK_Payments_Users" />
+        <AssociationConnector Association="FmsModel.FK_Payments_Users1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

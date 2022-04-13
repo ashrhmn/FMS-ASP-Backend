@@ -75,6 +75,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FmsModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Database\Payment.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\PurchasedTicket.cs">
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
@@ -85,6 +88,9 @@
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Stoppage.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\sysdiagram.cs">
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Transport.cs">
