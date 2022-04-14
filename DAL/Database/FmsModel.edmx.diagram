@@ -36,6 +36,8 @@
         <AssociationConnector Association="FmsModel.FK_Payments_PurchasedTickets" />
         <AssociationConnector Association="FmsModel.FK_Payments_Users" />
         <AssociationConnector Association="FmsModel.FK_Payments_Users1" />
+        <EntityTypeShape EntityType="FmsModel.EmailVerifyToken" Width="1.5" PointX="5.25" PointY="15.25" />
+        <AssociationConnector Association="FmsModel.FK_EmailVerifyTokens_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

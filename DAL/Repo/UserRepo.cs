@@ -35,7 +35,8 @@ namespace DAL.Repo
 
         public User GetById(int id)
         {
-            return _db.Users.FirstOrDefault(u => u.Id == id);
+            var user = _db.Users.FirstOrDefault(u => u.Id == id);
+            return user;
         }
 
         public bool Update(int id, User obj)
