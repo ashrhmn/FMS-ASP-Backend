@@ -11,6 +11,50 @@ namespace Web_API.Controllers
 {
     public class ManagerController : ApiController
     {
+
+        [Route("api/manager/profile")]
+        [HttpGet]
+        public HttpResponseMessage Profile()
+        {
+            var data = ManagerService.GetUser(24);
+            var d = new
+            {
+                Id = data.Id,
+                Name = data.Name,
+                Username = data.Username,
+                DateOfBirth = data.DateOfBirth,
+                Email = data.Email,
+                Phone = data.Phone,
+                Address = data.Address
+            };
+            return Request.CreateResponse(HttpStatusCode.OK, d);
+        }
+
+        [Route("api/manager/editprofile")]
+        [HttpPost]
+        public HttpResponseMessage EditProfile([FromBody] UserModel userModel)
+        {
+            return ManagerService.UpdateProfile(userModel.Id, userModel)
+                ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
+                : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Profile");
+        }
+        [Route("api/manager/changepass")]
+        [HttpPost]
+        public HttpResponseMessage ChangePass(string OldPassword, string Password, string ConPassword)
+        {
+            return Request.CreateResponse(HttpStatusCode.Created, ManagerService.ChangePass(24, OldPassword, Password, ConPassword));
+        }
+
+
+
+
+
+
+
+
+
+
+
         [Route("api/get/seatinfos")]
         [HttpGet]
         public HttpResponseMessage GetAllSeatInfo()
