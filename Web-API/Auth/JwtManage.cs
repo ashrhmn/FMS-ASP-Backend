@@ -14,7 +14,7 @@ namespace Web_API.Auth
     {
         private const string Secret = "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk";
 
-        public static string EncodeToken(Object payload)
+        public static string EncodeToken(AuthPayload payload)
         {
             JWT.Algorithms.IJwtAlgorithm algorithm = new JWT.Algorithms.HMACSHA256Algorithm();
             JWT.IJsonSerializer serializer = new JWT.Serializers.JsonNetSerializer();
@@ -71,14 +71,19 @@ namespace Web_API.Auth
             return result;
         }
 
+        public static AuthPayload LoggedInUser(string token)
+        {
+            var decodedObject = DecodeToken(token);
+            if (decodedObject == null) return null;
+            var result = JsonConvert.DeserializeObject<AuthPayload>(decodedObject);
+            return result;
+        }
+
         public static AuthPayload LoggedInUser(HttpActionContext httpActionContext)
         {
             var token = httpActionContext.Request.Headers.Authorization;
             if (token == null) return null;
-            var decodedObject = DecodeToken(token.ToString());
-            if (decodedObject == null) return null;
-            var result = JsonConvert.DeserializeObject<AuthPayload>(decodedObject);
-            return result;
+            return LoggedInUser(token.ToString());
         }
 
         public static void AuthorizeUser(HttpActionContext actionContext, string role)
@@ -88,6 +93,12 @@ namespace Web_API.Auth
             {
                 actionContext.Response =
                     actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, "Invalid Token");
+                return;
+            }
+
+            if (user.Role == null)
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized, "Role is null");
                 return;
             }
             if (user.Role.ToLower().Equals(role) || role.Equals("*")) return;

@@ -4,36 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using BLL.Services;
+using Web_API.Auth;
 
 namespace Web_API.Controllers
 {
+    [UserAccess]
+    [RoutePrefix("api/user-db")]
+    [EnableCors("*","*","*")]
     public class UserDashboardController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [Route("flights")]
+        public HttpResponseMessage GetAllFlightSchedule()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            var schedules = TransportScheduleService.GetAllTransportSchedule();
+            return Request.CreateResponse(HttpStatusCode.OK, new { data = schedules });
         }
     }
 }

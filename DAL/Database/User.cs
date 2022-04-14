@@ -34,6 +34,7 @@ namespace DAL.Database
         public string Email { get; set; }
         public string Phone { get; set; }
         public Nullable<int> Role { get; set; }
+        public bool Verified { get; set; }
     
         public virtual City City { get; set; }
         public virtual Family Family { get; set; }

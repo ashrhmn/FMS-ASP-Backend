@@ -28,8 +28,8 @@ namespace BLL.Entities
                 Time = schedule.Time
             };
             if (!extended) return model;
-            model.FromStoppage = StoppageModel.FromDb(schedule.Stoppage);
-            model.ToStoppage = StoppageModel.FromDb(schedule.Stoppage1);
+            model.FromStoppage = StoppageModel.FromDb(schedule.Stoppage,true);
+            model.ToStoppage = StoppageModel.FromDb(schedule.Stoppage1,true);
             model.Transport = TransportModel.FromDb(schedule.Transport);
             return model;
         }
