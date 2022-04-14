@@ -20,6 +20,15 @@
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Country" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="EmailVerifyTokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Token" Type="varchar" MaxLength="255" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="date" />
+        </EntityType>
         <EntityType Name="Families">
           <Key>
             <PropertyRef Name="Id" />
@@ -130,6 +139,18 @@
           <Property Name="Role" Type="int" />
           <Property Name="Verified" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_EmailVerifyTokens_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="EmailVerifyTokens" Type="Self.EmailVerifyTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailVerifyTokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Payments_PurchasedTickets">
           <End Role="PurchasedTickets" Type="Self.PurchasedTickets" Multiplicity="1" />
           <End Role="Payments" Type="Self.Payments" Multiplicity="*" />
@@ -349,6 +370,7 @@
         <EntityContainer Name="FmsModelStoreContainer">
           <EntitySet Name="AgeClassEnums" EntityType="Self.AgeClassEnums" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmailVerifyTokens" EntityType="Self.EmailVerifyTokens" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Families" EntityType="Self.Families" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payments" EntityType="Self.Payments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchasedTickets" EntityType="Self.PurchasedTickets" Schema="dbo" store:Type="Tables" />
@@ -360,6 +382,10 @@
           <EntitySet Name="TransportSchedules" EntityType="Self.TransportSchedules" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRoleEnums" EntityType="Self.UserRoleEnums" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_EmailVerifyTokens_Users" Association="Self.FK_EmailVerifyTokens_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="EmailVerifyTokens" EntitySet="EmailVerifyTokens" />
+          </AssociationSet>
           <AssociationSet Name="FK_Payments_PurchasedTickets" Association="Self.FK_Payments_PurchasedTickets">
             <End Role="PurchasedTickets" EntitySet="PurchasedTickets" />
             <End Role="Payments" EntitySet="Payments" />
@@ -574,6 +600,7 @@
           <NavigationProperty Name="Payments" Relationship="FmsModel.FK_Payments_Users" FromRole="User" ToRole="Payment" />
           <NavigationProperty Name="Payments1" Relationship="FmsModel.FK_Payments_Users1" FromRole="User" ToRole="Payment" />
           <Property Name="Verified" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmailVerifyTokens" Relationship="FmsModel.FK_EmailVerifyTokens_Users" FromRole="User" ToRole="EmailVerifyToken" />
         </EntityType>
         <Association Name="FK_SeatInfos_AgeClassEnums">
           <End Role="AgeClassEnums" Type="Self.AgeClassEnum" Multiplicity="0..1" />
@@ -841,6 +868,11 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Payment" EntitySet="Payments" />
           </AssociationSet>
+          <EntitySet Name="EmailVerifyTokens" EntityType="FmsModel.EmailVerifyToken" />
+          <AssociationSet Name="FK_EmailVerifyTokens_Users" Association="FmsModel.FK_EmailVerifyTokens_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="EmailVerifyToken" EntitySet="EmailVerifyTokens" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Payment">
           <Key>
@@ -898,6 +930,28 @@
             </Principal>
             <Dependent Role="Payment">
               <PropertyRef Name="ConfirmedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="EmailVerifyToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Token" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="User" Relationship="FmsModel.FK_EmailVerifyTokens_Users" FromRole="EmailVerifyToken" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_EmailVerifyTokens_Users">
+          <End Type="FmsModel.User" Role="User" Multiplicity="1" />
+          <End Type="FmsModel.EmailVerifyToken" Role="EmailVerifyToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="EmailVerifyToken">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1042,6 +1096,16 @@
                 <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmailVerifyTokens">
+            <EntityTypeMapping TypeName="FmsModel.EmailVerifyToken">
+              <MappingFragment StoreEntitySet="EmailVerifyTokens">
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

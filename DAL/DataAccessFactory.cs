@@ -44,5 +44,10 @@ namespace DAL
             return new FamilyRepo(Db);
         }
 
+        public static IRepository<EmailVerifyToken, int> EmailVerifyTokenAccess()
+        {
+            return new EmailVerifyTokenRepo(Db);
+        }
+
     }
 }

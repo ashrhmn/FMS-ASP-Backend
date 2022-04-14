@@ -38,5 +38,6 @@ namespace DAL.Database
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<EmailVerifyToken> EmailVerifyTokens { get; set; }
     }
 }

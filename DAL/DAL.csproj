@@ -57,6 +57,9 @@
     <Compile Include="Database\City.cs">
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Database\EmailVerifyToken.cs">
+      <DependentUpon>FmsModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\Family.cs">
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
@@ -108,6 +111,7 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\CityRepo.cs" />
+    <Compile Include="Repo\EmailVerifyTokenRepo.cs" />
     <Compile Include="Repo\FamilyRepo.cs" />
     <Compile Include="Repo\SeatInfoRepo.cs" />
     <Compile Include="Repo\StoppageRepo.cs" />

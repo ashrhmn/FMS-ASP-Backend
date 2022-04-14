@@ -21,6 +21,7 @@ namespace DAL.Database
             this.Transports = new HashSet<Transport>();
             this.Payments = new HashSet<Payment>();
             this.Payments1 = new HashSet<Payment>();
+            this.EmailVerifyTokens = new HashSet<EmailVerifyToken>();
         }
     
         public int Id { get; set; }
@@ -47,5 +48,7 @@ namespace DAL.Database
         public virtual ICollection<Payment> Payments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Payment> Payments1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmailVerifyToken> EmailVerifyTokens { get; set; }
     }
 }
