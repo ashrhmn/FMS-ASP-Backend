@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
 using BLL.Services;
+using Web_API.DTOs;
 
 namespace Web_API.Controllers
 {
@@ -16,18 +17,8 @@ namespace Web_API.Controllers
         [HttpGet]
         public HttpResponseMessage Profile()
         {
-            var data = ManagerService.GetUser(24);
-            var d = new
-            {
-                Id = data.Id,
-                Name = data.Name,
-                Username = data.Username,
-                DateOfBirth = data.DateOfBirth,
-                Email = data.Email,
-                Phone = data.Phone,
-                Address = data.Address
-            };
-            return Request.CreateResponse(HttpStatusCode.OK, d);
+            
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.ManagerProfile(24));
         }
 
         [Route("api/manager/editprofile")]
@@ -38,12 +29,81 @@ namespace Web_API.Controllers
                 ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Profile");
         }
+
         [Route("api/manager/changepass")]
         [HttpPost]
-        public HttpResponseMessage ChangePass(string OldPassword, string Password, string ConPassword)
+        public HttpResponseMessage ChangePass(ChangePassDto changePass)
         {
-            return Request.CreateResponse(HttpStatusCode.Created, ManagerService.ChangePass(24, OldPassword, Password, ConPassword));
+            return Request.CreateResponse(HttpStatusCode.Created, ManagerService.ChangePass(24, changePass.OldPassword, changePass.Password, changePass.ConPassword));
         }
+
+        [Route("api/manager/userlistsearch")]
+        [HttpPost]
+        public HttpResponseMessage UserListSearch(UListSearchDto uListSearch)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.UserlistSearch(uListSearch.Uname, uListSearch.Purchase));
+        }
+
+        [Route("api/manager/flightmanagerlistsearch")]
+        [HttpPost]
+        public HttpResponseMessage FlightManagerListSearch(UListSearchDto uListSearchDto)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.FlightManagerlistSearch(uListSearchDto.Uname));
+        }
+
+        [Route("api/manager/userprofile/{id}")]
+        [HttpGet]
+        public HttpResponseMessage UserProfile(int id)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.GetUser(id));
+        }
+
+        [Route("api/manager/edituserprofile")]
+        [HttpPost]
+        public HttpResponseMessage EditUserProfile([FromBody] UserModel userModel)
+        {
+            return ManagerService.UpdateUserdetails(userModel.Id, userModel)
+                ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
+                : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Profile");
+        }
+
+
+        [Route("api/manager/userticketlist/{id}")]
+        [HttpGet]
+        public HttpResponseMessage UserTickets(int id)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.UserTicketList(id));
+        }
+
+
+        [Route("api/manager/updateticket")]
+        [HttpPost]
+        public HttpResponseMessage EditTicket(UpdateTickettDto updateTickettDto)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.UpdateTicket(updateTickettDto.Id, updateTickettDto.AgeClass, updateTickettDto.SeatClass));
+        }
+
+
+        [Route("api/manager/Flightlist")]
+        [HttpGet]
+        public HttpResponseMessage FlightList()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.GetAllTransportSchedule());
+        }
+
+
+        [Route("api/manager/cancelticket/{uid}/{tid}")]
+        [HttpGet]
+        public HttpResponseMessage FlightList(int uid, int tid)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.CancelTicket(uid,tid));
+
+        }
+
+
+
+
+
 
 
 

@@ -134,7 +134,10 @@
     <Compile Include="Controllers\TransportScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
+    <Compile Include="DTOs\ChangePassDto.cs" />
     <Compile Include="DTOs\LoginDto.cs" />
+    <Compile Include="DTOs\UListSearchDto.cs" />
+    <Compile Include="DTOs\UpdateTickettDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

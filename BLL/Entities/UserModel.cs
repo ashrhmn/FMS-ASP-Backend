@@ -18,10 +18,11 @@ namespace BLL.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         public int? Role { get; set; }
+        public string RoleValue { get; set; }
         public bool Verified { get; set; }
         public FamilyModel Family { get; set; }
         public CityModel City { get; set; }
-        public string RoleEnum { get; set; }
+        public UserRoleEnumModel RoleEnum { get; set; }
         public List<TransportModel> CreatedTransports { get; set; } = new List<TransportModel>();
         public List<PurchasedTicketModel> PurchasedTickets { get; set; } = new List<PurchasedTicketModel>();
 
@@ -46,7 +47,7 @@ namespace BLL.Entities
             if (!extended) return model;
             model.Family = FamilyModel.FromDb(user.Family);
             model.City = CityModel.FromDb(user.City);
-            model.RoleEnum = user.UserRoleEnum?.Value;
+            model.RoleEnum = UserRoleEnumModel.FromDb(user.UserRoleEnum);
             model.CreatedTransports = user.Transports.Select(t => TransportModel.FromDb(t)).ToList();
             model.PurchasedTickets = user.PurchasedTickets.Select(pt => PurchasedTicketModel.FromDb(pt)).ToList();
             return model;

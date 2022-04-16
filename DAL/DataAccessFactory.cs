@@ -49,5 +49,19 @@ namespace DAL
             return new EmailVerifyTokenRepo(Db);
         }
 
+        public static IRepository<UserRoleEnum, int> UserRoleEnumDataAccess()
+        {
+            return new UserRoleEnumRepo(Db);
+        }
+
+        public static IRepository<SeatClassEnum, int> SeatClassEnumDataAccess()
+        {
+            return new SeatClassEnumRepo(Db);
+        }
+        public static IRepository<AgeClassEnum, int> AgeClassEnumDataAccess()
+        {
+            return new AgeClassEnumRepo(Db);
+        }
+
     }
 }
