@@ -22,7 +22,7 @@ namespace Web_API.Controllers
         {
             var user = AuthService.Authenticate(loginDto.Username, loginDto.Password);
             if (user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Username or password is incorrect");
-            var payload = new AuthPayload() { Id = user.Id,Username = user.Username,Role = user.RoleEnum,Verified = user.Verified};
+            var payload = new AuthPayload() { Id = user.Id,Username = user.Username,Role = user.RoleEnum.Value,Verified = user.Verified};
             var token = JwtManage.EncodeToken(payload);
             return Request.CreateResponse(HttpStatusCode.OK, new { data= new {user,token} });
         }
@@ -49,7 +49,7 @@ namespace Web_API.Controllers
             if (payload == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Token Invalid");
             var user = UserService.GetUser(payload.Id);
             if (user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Unauthorized User");
-            var payloadRes = new AuthPayload() {Username = user.Username, Id = user.Id, Role = user.RoleEnum,Verified = user.Verified};
+            var payloadRes = new AuthPayload() {Username = user.Username, Id = user.Id, Role = user.RoleEnum.Value,Verified = user.Verified};
             return Request.CreateResponse(HttpStatusCode.OK, new{data=payloadRes});
         }
 

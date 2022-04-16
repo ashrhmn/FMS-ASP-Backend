@@ -110,15 +110,18 @@
     </Compile>
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\AgeClassEnumRepo.cs" />
     <Compile Include="Repo\CityRepo.cs" />
     <Compile Include="Repo\EmailVerifyTokenRepo.cs" />
     <Compile Include="Repo\FamilyRepo.cs" />
+    <Compile Include="Repo\SeatClassEnumRepo.cs" />
     <Compile Include="Repo\SeatInfoRepo.cs" />
     <Compile Include="Repo\StoppageRepo.cs" />
     <Compile Include="Repo\TicketRepo.cs" />
     <Compile Include="Repo\TransportRepo.cs" />
     <Compile Include="Repo\TransportScheduleRepo.cs" />
     <Compile Include="Repo\UserRepo.cs" />
+    <Compile Include="Repo\UserRoleEnumRepo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
