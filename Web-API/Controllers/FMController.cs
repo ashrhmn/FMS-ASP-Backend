@@ -54,32 +54,33 @@ namespace Web_API.Controllers
         [HttpGet]
         public HttpResponseMessage GetAllTransports()
         {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
+            AuthPayload user = JwtManage.LoggedInUser(Request.Headers.Authorization.ToString());
+            var transports = FMService.GetAllTransport(user.Id);
             return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
         }
+
+        //[Route("transport/{id}")]
+        //[HttpGet]
+        //public HttpResponseMessage GetTransport(int tid)
+        //{
+        //    var transport = TransportService.GetTransport(tid);
+        //    return Request.CreateResponse(HttpStatusCode.OK, new { data = transport });
+        //}
 
         [Route("transport/{id}")]
         [HttpGet]
         public HttpResponseMessage GetTransport(int tid)
         {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
-            return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
-        }
-
-        [Route("transports/{id}")]
-        [HttpPost]
-        public HttpResponseMessage UpdateTransport([FromBody] TransportModel transportModel)
-        {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
-            return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
+            var transport = TransportService.GetTransport(tid);
+            return Request.CreateResponse(HttpStatusCode.OK, TransportService.GetTransport(tid));
         }
 
         [Route("bookedtickets")]
         [HttpGet]
         public HttpResponseMessage BookedTickets()
         {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
-            return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
+            var btkts = TransportScheduleService.GetAllTransportSchedule();
+            return Request.CreateResponse(HttpStatusCode.OK, new { data = btkts });
         }
 
         [Route("bookedticket/{id}")]

@@ -37,5 +37,11 @@ namespace BLL.Services
             }
             return false;
         }
+
+        public static List<TransportModel> GetAllTransport(int cid)
+        {
+
+            return DataAccessFactory.UTransportDataAccess().GetAll(cid).Select(transport => TransportModel.FromDb(transport, true)).ToList();
+        }
     }
 }
