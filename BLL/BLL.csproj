@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AgeClassEnumModel.cs" />
+    <Compile Include="Entities\BookedTicketModel.cs" />
     <Compile Include="Entities\CityModel.cs" />
     <Compile Include="Entities\EmailVerifyTokenModel.cs" />
     <Compile Include="Entities\FamilyModel.cs" />
