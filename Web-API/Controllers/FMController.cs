@@ -19,17 +19,17 @@ namespace Web_API.Controllers
     {
         [Route("dashboard")]
         [HttpGet]
-        public HttpResponseMessage Dashboard(HttpRequestMessage request)
+        public HttpResponseMessage Dashboard()
         {
-            AuthPayload user = JwtManage.LoggedInUser(request.Headers.Authorization.ToString());
+            AuthPayload user = JwtManage.LoggedInUser(Request.Headers.Authorization.ToString());
             return Request.CreateResponse(HttpStatusCode.OK, FMService.Profile(user.Id));
         }
 
         [Route("dashboard")]
         [HttpPost]
-        public HttpResponseMessage Dashboard(HttpRequestMessage request, [FromBody] ProfileDto profile)
+        public HttpResponseMessage Dashboard( [FromBody] ProfileDto profile)
         {
-            AuthPayload user = JwtManage.LoggedInUser(request.Headers.Authorization.ToString());
+            AuthPayload user = JwtManage.LoggedInUser(Request.Headers.Authorization.ToString());
             var UM = new UserModel()
             {
                 Id = user.Id,
