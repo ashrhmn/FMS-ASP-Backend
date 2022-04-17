@@ -11,7 +11,6 @@ namespace Web_API.DTOs
         public string Name { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-
         public string ConfirmPassword { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public int? FamilyId { get; set; }
