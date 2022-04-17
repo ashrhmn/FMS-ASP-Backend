@@ -19,18 +19,35 @@ namespace Web_API.Controllers
     {
         [Route("dashboard")]
         [HttpGet]
-        public HttpResponseMessage Dashboard()
+        public HttpResponseMessage Dashboard(HttpRequestMessage request)
         {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
-            return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
+            AuthPayload user = JwtManage.LoggedInUser(request.Headers.Authorization.ToString());
+            return Request.CreateResponse(HttpStatusCode.OK, FMService.Profile(user.Id));
         }
 
         [Route("dashboard")]
         [HttpPost]
-        public HttpResponseMessage Dashboard([FromBody] TransportModel transportModel)
+        public HttpResponseMessage Dashboard(HttpRequestMessage request, [FromBody] ProfileDto profile)
         {
-            var transports = TransportScheduleService.GetAllTransportSchedule();
-            return Request.CreateResponse(HttpStatusCode.OK, new { data = transports });
+            AuthPayload user = JwtManage.LoggedInUser(request.Headers.Authorization.ToString());
+            var UM = new UserModel()
+            {
+                Id = user.Id,
+                Name = profile.Name,
+                Username = profile.Username,
+                Password = profile.Password,
+                Address = profile.Address,
+                DateOfBirth = profile.DateOfBirth,
+                CityId = profile.CityId,
+                FamilyId = profile.FamilyId,
+                Role = 3,
+                Email = profile.Email,
+                Phone = profile.Phone
+            };
+
+            return FMService.UpdateProfile(user.Id, UM, profile.ConfirmPassword)
+                ? Request.CreateResponse(HttpStatusCode.Created, "Updated successfully")
+                : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating user");
         }
 
         [Route("transports")]
