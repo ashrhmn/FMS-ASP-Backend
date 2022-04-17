@@ -76,6 +76,7 @@
     <Compile Include="Services\CityService.cs" />
     <Compile Include="Services\EmailVerifyTokenService.cs" />
     <Compile Include="Services\FamilyService.cs" />
+    <Compile Include="Services\FMService.cs" />
     <Compile Include="Services\ManagerService.cs" />
     <Compile Include="Services\SeatInfoService.cs" />
     <Compile Include="Services\StoppageService.cs" />
