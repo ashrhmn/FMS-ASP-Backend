@@ -1,7 +1,6 @@
 ﻿using JWT;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -82,8 +81,13 @@ namespace Web_API.Auth
         public static AuthPayload LoggedInUser(HttpActionContext httpActionContext)
         {
             var token = httpActionContext.Request.Headers.Authorization;
-            if (token == null) return null;
-            return LoggedInUser(token.ToString());
+            return token == null ? null : LoggedInUser(token.ToString());
+        }
+
+        public static AuthPayload LoggedInUser(HttpRequestMessage request)
+        {
+            var token = request.Headers.Authorization;
+            return token == null ? null : LoggedInUser(token.ToString());
         }
 
         public static void AuthorizeUser(HttpActionContext actionContext, string role)
