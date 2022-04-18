@@ -479,6 +479,7 @@ namespace BLL.Services
 
                         var Schedule = new
                         {
+                            FlightId = t.Id,
                             FromStopage = t.FromStoppage.Name,
                             ToStopage = t.ToStoppage.Name,
                             Day = t.Day,
