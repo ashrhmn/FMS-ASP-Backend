@@ -101,6 +101,33 @@ namespace Web_API.Controllers
         }
 
 
+        [Route("api/manager/adduser")]
+        [HttpPost]
+        public HttpResponseMessage AddUser([FromBody] UserModel userModel)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.AddUser(userModel));
+        }
+
+        [Route("api/manager/deleteuser/{id}")]
+        [HttpGet]
+        public HttpResponseMessage DeleteUser(int id)
+        {
+            return ManagerService.DeleteUser(id)
+                ? Request.CreateResponse(HttpStatusCode.Created, "Deleted User Account Successfully")
+                : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error deleting User");
+        }
+
+        [Route("api/manager/aircraftlistsearch")]
+        [HttpPost]
+        public HttpResponseMessage AircraftList([FromBody] AircraftlistSearchDto aircraft)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.AircraftListSearch(aircraft.Name));
+        }
+
+
+
+
+
 
 
 
