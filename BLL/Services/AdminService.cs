@@ -28,17 +28,23 @@ namespace BLL.Services
             var aircraft = TransportModel.FromDb(DataAccessFactory.TransportDataAccess().GetById(id), true);
             var aircraftName = aircraft.Name;
 
-            var bsfs = new List<object>();
-            foreach (var p in aircraft.SeatInfos)
-            {
-                //var user = (from u in DataAccessFactory.UserDataAccess().GetAll() where u.Id == id select UserModel.FromDb(u)).FirstOrDefault();
-                var bsf = new
-                {
-                    Purchased_By = p.PurchasedTicket.PurchasedByUser.Name
-                };
-                bsfs.Add(bsf);
-            }
-            return bsfs;
+            return aircraft.SeatInfos;
+
+            var users = aircraft.SeatInfos.Select(si => si.PurchasedTicket).ToList();
+
+            return users;
+
+            // var bsfs = new List<object>();
+            // foreach (var p in aircraft.SeatInfos)
+            // {
+            //     //var user = (from u in DataAccessFactory.UserDataAccess().GetAll() where u.Id == id select UserModel.FromDb(u)).FirstOrDefault();
+            //     var bsf = new
+            //     {
+            //         Purchased_By = p.PurchasedTicket.PurchasedByUser.Name
+            //     };
+            //     bsfs.Add(bsf);
+            // }
+            // return bsfs;
         }
     }
 }

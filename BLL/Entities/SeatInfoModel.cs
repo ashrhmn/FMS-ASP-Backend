@@ -23,8 +23,8 @@ namespace BLL.Entities
         {
             if (seatInfo == null) return null;
             var model = new SeatInfoModel() { Id = seatInfo.Id, StartTime = seatInfo.StartTime,SeatNo = seatInfo.SeatNo,TicketId = seatInfo.TicketId,TransportId = seatInfo.TransportId,AgeClass = seatInfo.AgeClass,SeatClass = seatInfo.SeatClass,Status = seatInfo.Status};
-            if (!extended) return model;
             model.PurchasedTicket = PurchasedTicketModel.FromDb(seatInfo.PurchasedTicket);
+            if (!extended) return model;
             model.AgeClassEnum = AgeClassEnumModel.FromDb(seatInfo.AgeClassEnum);
             model.SeatClassEnum = SeatClassEnumModel.FromDb(seatInfo.SeatClassEnum);
             model.Transport = TransportModel.FromDb(seatInfo.Transport);
