@@ -1,35 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+using BLL.Services;
 
 namespace Web_API.Controllers
 {
+    [RoutePrefix("api/test")]
     public class TestController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [Route("next/{day}")]
+        [HttpGet]
+        public HttpResponseMessage TestDate(string day)
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<controller>/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<controller>
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            var next = UtilsService.GetNextWeekDay(day);
+            return next == null
+                ? Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid day")
+                : Request.CreateResponse(HttpStatusCode.OK, next);
         }
     }
 }

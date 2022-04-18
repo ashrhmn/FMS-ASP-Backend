@@ -85,6 +85,7 @@
     <Compile Include="Services\TransportScheduleService.cs" />
     <Compile Include="Services\TransportService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\UtilsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
