@@ -20,9 +20,9 @@ namespace BLL.Entities
             var model = new TransportModel() { Id = transport.Id, Name = transport.Name, MaximumSeat = transport.MaximumSeat, CreatedBy = transport.CreatedBy };
             if (!extended) return model;
             model.CreatedByUser = UserModel.FromDb(transport.User);
-            model.SeatInfos = transport.SeatInfos.Select(si => SeatInfoModel.FromDb(si)).ToList();
+            model.SeatInfos = transport.SeatInfos.Select(si => SeatInfoModel.FromDb(si,true)).ToList();
             model.TransportSchedules =
-                transport.TransportSchedules.Select(ts => TransportScheduleModel.FromDb(ts)).ToList();
+                transport.TransportSchedules.Select(ts => TransportScheduleModel.FromDb(ts,true)).ToList();
             return model;
         }
 

@@ -242,31 +242,47 @@ namespace BLL.Services
                 var ToRootFare = tostopage.FareFromRoot;
                 var baseFare = Math.Abs((FromRootFare ?? -1) - (ToRootFare ?? -1));
                 var cost = 0;
-                if (seatinfo.SeatClassEnum != null && seatinfo.SeatClassEnum.Value == "Business")
+                if(seatinfo != null)
                 {
-                    cost = baseFare * 15;
-                }
-                else if (seatinfo.SeatClassEnum != null && seatinfo.SeatClassEnum.Value == "Economic")
-                {
-                    cost = baseFare * 10;
-                }
-                else
-                {
-                    cost = baseFare * 12;
-                }
+                    if (seatinfo.SeatClassEnum != null && seatinfo.SeatClassEnum.Value == "Business")
+                    {
+                        cost = baseFare * 15;
+                    }
+                    else if (seatinfo.SeatClassEnum != null && seatinfo.SeatClassEnum.Value == "Economic")
+                    {
+                        cost = baseFare * 10;
+                    }
+                    else
+                    {
+                        cost = baseFare * 12;
+                    }
 
 
+                    var pdetaill = new
+                    {
+                        Ticket_Id = p.Id,
+                        Flight_Name = seatinfo.Transport.Name,
+                        FromStopageName = fromstopage.Name,
+                        ToStopageName = tostopage.Name,
+                        Start_Time = seatinfo.StartTime,
+                        Age_class = seatinfo.AgeClassEnum.Value,
+                        Seat_class = seatinfo.SeatClassEnum.Value,
+                        Cost = cost
 
+                    };
+                    pdetails.Add(pdetaill);
+                }
+             
 
                 var pdetail = new
                 {
                     Ticket_Id = p.Id,
-                    Flight_Name = seatinfo.Transport.Name,
+                    Flight_Name = "no seat define",
                     FromStopageName = fromstopage.Name,
                     ToStopageName  = tostopage.Name,
-                    Start_Time = seatinfo.StartTime,
-                    Age_class = seatinfo.AgeClassEnum.Value,
-                    Seat_class = seatinfo.SeatClassEnum.Value,
+                    Start_Time = "no seat define",
+                    Age_class = "no seat define",
+                    Seat_class = "no seat define",
                     Cost = cost
 
                 };
@@ -413,6 +429,81 @@ namespace BLL.Services
 
             return "Ticket Cannot be Canceled";
  
+
+        }
+
+        public static string AddUser(UserModel userModel)
+        {
+            var role = (from r in DataAccessFactory.UserRoleEnumDataAccess().GetAll() where r.Value == userModel.RoleValue select UserRoleEnumModel.FromDb(r)).FirstOrDefault();
+            userModel.Role = role.Id;
+
+            if (DataAccessFactory.UserDataAccess().Add(userModel.GetDbModel()))
+            {
+                return "User Account Created Successfully";
+            };
+            return "User Account Not Created";
+
+        }
+
+
+        public static bool DeleteUser(int id)
+        {
+            return DataAccessFactory.UserDataAccess().Delete(id);
+        }
+
+
+        public static List<object> AircraftListSearch(string Name)
+        {
+            List<TransportModel> data;
+            if (Name == "")
+            {
+                data = DataAccessFactory.TransportDataAccess().GetAll().Select(transport => TransportModel.FromDb(transport, true)).ToList();
+            }
+            else if(Name != "")
+            {
+                data = DataAccessFactory.TransportDataAccess().GetAll().Select(transport => TransportModel.FromDb(transport, true)).Where(transport => transport.Name.Contains(Name)).ToList();
+            }
+            else
+            {
+                data = null;
+            }
+
+            if(data != null)
+            {
+
+                var trans = new List<object>();
+                foreach(var d in data)
+                {
+                    var schedules= new List<object>();
+                    foreach(var t in d.TransportSchedules){
+
+                        var Schedule = new
+                        {
+                            FromStopage = t.FromStoppage.Name,
+                            ToStopage = t.ToStoppage.Name,
+                            Day = t.Day,
+                            Time = (t.Time) / 100
+                        };
+                        
+                        schedules.Add(Schedule);
+
+                    }
+
+                    var tran = new
+                    {
+                        Name = d.Name,
+                        MaximumSeat = d.MaximumSeat,
+                        CreatedBy = d.CreatedByUser.Name,
+                        FlightSchedules = schedules
+                    };
+                    trans.Add(tran);
+
+                }
+                return trans;
+                
+            }
+            return null;
+
 
         }
 
