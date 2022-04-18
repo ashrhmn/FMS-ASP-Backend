@@ -10,7 +10,7 @@ namespace BLL.Services
         public static List<CityModel> GetAllCity()
         {
 
-            return DataAccessFactory.CityDataAccess().GetAll().Select(city => CityModel.FromDb(city)).ToList();
+            return DataAccessFactory.CityDataAccess().GetAll().Select(city => CityModel.FromDb(city,true)).ToList();
         }
 
         public static CityModel GetCity(int id)

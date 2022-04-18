@@ -124,7 +124,9 @@
     <Compile Include="Auth\AuthPayload.cs" />
     <Compile Include="Auth\FMAccess.cs" />
     <Compile Include="Auth\JwtManage.cs" />
+    <Compile Include="Auth\ManagerAccess.cs" />
     <Compile Include="Auth\UserAccess.cs" />
+    <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\FMController.cs" />
