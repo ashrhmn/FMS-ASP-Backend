@@ -26,25 +26,55 @@ namespace BLL.Services
         public static object BookedSeatsForFlight(int id)
         {
             var aircraft = TransportModel.FromDb(DataAccessFactory.TransportDataAccess().GetById(id), true);
+            var si = DataAccessFactory.SeatInfoDataAccess().GetAll().Where(u => u.TransportId == id).Select(seatinfo => SeatInfoModel.FromDb(seatinfo, true)).ToList();
             var aircraftName = aircraft.Name;
+            var aircraftId = aircraft.Id;
+            //return aircraft.SeatInfos.ToList();
 
-            return aircraft.SeatInfos;
+            //var users = aircraft.SeatInfos.Select(si => si.PurchasedTicket).ToList();
 
-            var users = aircraft.SeatInfos.Select(si => si.PurchasedTicket).ToList();
+            //return users;
 
-            return users;
-
-            // var bsfs = new List<object>();
-            // foreach (var p in aircraft.SeatInfos)
-            // {
-            //     //var user = (from u in DataAccessFactory.UserDataAccess().GetAll() where u.Id == id select UserModel.FromDb(u)).FirstOrDefault();
-            //     var bsf = new
-            //     {
-            //         Purchased_By = p.PurchasedTicket.PurchasedByUser.Name
-            //     };
-            //     bsfs.Add(bsf);
-            // }
-            // return bsfs;
+            var bsfs = new List<object>();
+            foreach (var s in si)
+            {
+                var fromstopage = StoppageModel.FromDb(DataAccessFactory.StoppageDataAccess().GetById(s.PurchasedTicket.FromStoppageId), true);
+                var tostopage = StoppageModel.FromDb(DataAccessFactory.StoppageDataAccess().GetById(s.PurchasedTicket.ToStoppageId), true);
+                
+                var bsf = new
+                {
+                    Aircraft_Id = aircraftId,
+                    Aircrafts_name = aircraftName,
+                    Seat_No = s.SeatNo,
+                    Seat_quality = s.SeatClassEnum.Value,
+                    From_stopage = fromstopage.Name+", "+fromstopage.City.Name,
+                    To_stopage = tostopage.Name+", "+tostopage.City.Name,
+                    Purchased_By = s.PurchasedTicket.PurchasedByUser
+                };
+                bsfs.Add(bsf);
+            }
+            
+            
+            return bsfs;
         }
+        public static object SearchFlight(string Name)
+        {
+            var data = (from t in DataAccessFactory.TransportDataAccess().GetAll() where t.Name.ToLower().Contains(Name.ToLower()) select TransportModel.FromDb(t, true)).ToList();
+            if (data != null)
+            {
+                return data;
+            }
+            return null;
+        }
+        public static object SearchUser(string Name)
+        {
+            var data = (from u in DataAccessFactory.UserDataAccess().GetAll() where u.Name.ToLower().Contains(Name.ToLower()) select UserModel.FromDb(u, true)).ToList();
+            if (data != null)
+            {
+                return data;
+            }
+            return null;
+        }
+
     }
 }

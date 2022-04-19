@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
 using BLL.Services;
+using Web_API.DTOs;
 
 namespace Web_API.Controllers
 {
@@ -143,7 +144,7 @@ namespace Web_API.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error adding Transport Schedule");
         }
 
-        [Route("api/admin/editschedule")]
+        [Route("api/admin/editschedule/{id}")]
         [HttpGet]
         public HttpResponseMessage EditSchedules(int id, [FromBody] TransportScheduleModel transportScheduleModel)
         {
@@ -152,7 +153,7 @@ namespace Web_API.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating Transport Schedule");
         }
 
-        [Route("api/admin/deleteschedule")]
+        [Route("api/admin/deleteschedule/{id}")]
         [HttpGet]
         public HttpResponseMessage DeleteSchedules(int id)
         {
@@ -183,7 +184,7 @@ namespace Web_API.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error adding user");
         }
 
-        [Route("api/admin/editstoppage")]
+        [Route("api/admin/editstoppage/{id}")]
         [HttpPost]
         public HttpResponseMessage UpdateStoppage(int id, [FromBody] StoppageModel stoppageModel)
         {
@@ -192,7 +193,7 @@ namespace Web_API.Controllers
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error updating user");
         }
 
-        [Route("api/admin/deletestoppage")]
+        [Route("api/admin/deletestoppage/{id}")]
         [HttpPost]
         public HttpResponseMessage DeleteStoppage(int id)
         {
@@ -200,11 +201,26 @@ namespace Web_API.Controllers
                 ? Request.CreateResponse(HttpStatusCode.Created, "Deleted Successfully")
                 : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error deleting user");
         }
+
         [Route("api/admin/bookedseatsforflights/{id}")]
         [HttpGet]
         public HttpResponseMessage BookedSeatsForFlight(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, AdminService.BookedSeatsForFlight(id));
+        }
+        [Route("api/admin/searchflight")]
+        [HttpPost]
+        public HttpResponseMessage SearchFlight([FromBody] SearchWithNameDto a)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, AdminService.SearchFlight(a.Name));
+
+        }
+        [Route("api/admin/searchusers")]
+        [HttpPost]
+        public HttpResponseMessage SearchUser([FromBody] SearchWithNameDto a)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, AdminService.SearchUser(a.Name));
+
         }
     }
 
