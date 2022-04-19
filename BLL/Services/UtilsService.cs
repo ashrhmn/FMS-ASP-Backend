@@ -15,5 +15,13 @@ namespace BLL.Services
             var next = DateTime.Now.AddDays(diff).ToShortDateString();
             return next;
         }
+
+        public static string GetNextWeekDate(string date)
+        {
+            //string d = DateTime.Now.ToString();
+            DateTime d = Convert.ToDateTime(date);
+            string day = d.DayOfWeek.ToString();
+            return day;
+        }
     }
 }

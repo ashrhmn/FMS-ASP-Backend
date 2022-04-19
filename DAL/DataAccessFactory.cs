@@ -67,5 +67,10 @@ namespace DAL
             return new AgeClassEnumRepo(Db);
         }
 
+        public static IRepositoryNew<PurchasedTicket, int> TicketNewDataAccess()
+        {
+            return new TicketRepoNew(Db);
+        }
+
     }
 }

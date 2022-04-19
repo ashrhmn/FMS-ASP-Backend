@@ -26,7 +26,7 @@ namespace BLL.Entities
             model.AgeClassEnum = AgeClassEnumModel.FromDb(seatInfo.AgeClassEnum);
             model.SeatClassEnum = SeatClassEnumModel.FromDb(seatInfo.SeatClassEnum);
             if (!extended) return model;
-            model.PurchasedTicket = PurchasedTicketModel.FromDb(seatInfo.PurchasedTicket);
+            model.PurchasedTicket = PurchasedTicketModel.FromDb(seatInfo.PurchasedTicket,true);
             model.Transport = TransportModel.FromDb(seatInfo.Transport);
             return model;
         }
