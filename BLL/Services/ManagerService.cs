@@ -74,7 +74,6 @@ namespace BLL.Services
             List<UserModel> data;
             if (Uname == "" && Purchase != "true")
             {
-                //data = (from u in db.Users where u.Role == 2 select u).ToList();
                 data = DataAccessFactory.UserDataAccess()
                     .GetAll().Where(u => u.Role == 2)
                     .Select(u=>UserModel.FromDb(u)).ToList();
@@ -269,22 +268,22 @@ namespace BLL.Services
                     };
                     pdetails.Add(pdetaill);
                 }
-             
-
-                var pdetail = new
+                else
                 {
-                    Ticket_Id = p.Id,
-                    Flight_Name = "no seat define",
-                    FromStopageName = fromstopage.Name,
-                    ToStopageName  = tostopage.Name,
-                    Start_Time = "no seat define",
-                    Age_class = "no seat define",
-                    Seat_class = "no seat define",
-                    Cost = cost
+                    var pdetail = new
+                    {
+                        Ticket_Id = p.Id,
+                        Flight_Name = "no seat define",
+                        FromStopageName = fromstopage.Name,
+                        ToStopageName = tostopage.Name,
+                        Start_Time = "no seat define",
+                        Age_class = "no seat define",
+                        Seat_class = "no seat define",
+                        Cost = cost
 
-                };
-                pdetails.Add(pdetail);
-
+                    };
+                    pdetails.Add(pdetail);
+                }
 
             }
 
@@ -376,8 +375,6 @@ namespace BLL.Services
                
                 var pecost = baseFare * 12;
 
-                
-
 
 
                 var flight = new
@@ -405,7 +402,6 @@ namespace BLL.Services
 
             
             var tickets = (from t in DataAccessFactory.TicketDataAccess().GetAll() where t.PurchasedBy == id select PurchasedTicketModel.FromDb(t)).ToList();
-
             if (tickets.Count() > 1)
             {
                 
@@ -506,11 +502,181 @@ namespace BLL.Services
 
         }
 
+        public static List<object> FlightSearch(string date, string fromstopage, string tostopage)
+        {
+            List<TransportScheduleModel> data = new List<TransportScheduleModel>();
+            if (date == "")
+            {
+                if(fromstopage == "" && tostopage == "")
+                {
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage != "" && tostopage == "")
+                {
+                    var fromStopage = (from fs in DataAccessFactory.StoppageDataAccess().GetAll() where fs.Name == fromstopage select StoppageModel.FromDb(fs)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.FromStoppageId == fromStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage == "" && tostopage != "")
+                {
+                    var toStopage = (from ts in DataAccessFactory.StoppageDataAccess().GetAll() where ts.Name == tostopage select StoppageModel.FromDb(ts)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.ToStoppageId == toStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage != "" && tostopage != "")
+                {
+                    var fromStopage = (from fs in DataAccessFactory.StoppageDataAccess().GetAll() where fs.Name == fromstopage select StoppageModel.FromDb(fs)).FirstOrDefault();
+                    var toStopage = (from ts in DataAccessFactory.StoppageDataAccess().GetAll() where ts.Name == tostopage select StoppageModel.FromDb(ts)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.FromStoppageId == fromStopage.Id).Where(flight => flight.ToStoppageId == toStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+
+            }
+            else if( date != "")
+            {
+
+                DateTime d = Convert.ToDateTime(date);
+                string day = d.DayOfWeek.ToString();
+
+                if (fromstopage == "" && tostopage == "")
+                {
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.Day == day).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage != "" && tostopage == "")
+                {
+                    var fromStopage = (from fs in DataAccessFactory.StoppageDataAccess().GetAll() where fs.Name == fromstopage select StoppageModel.FromDb(fs)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.Day == day).Where(flight => flight.FromStoppageId == fromStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage == "" && tostopage != "")
+                {
+                    var toStopage = (from ts in DataAccessFactory.StoppageDataAccess().GetAll() where ts.Name == tostopage select StoppageModel.FromDb(ts)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.Day == day).Where(flight => flight.ToStoppageId == toStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+                else if (fromstopage != "" && tostopage != "")
+                {
+                    var fromStopage = (from fs in DataAccessFactory.StoppageDataAccess().GetAll() where fs.Name == fromstopage select StoppageModel.FromDb(fs)).FirstOrDefault();
+                    var toStopage = (from ts in DataAccessFactory.StoppageDataAccess().GetAll() where ts.Name == tostopage select StoppageModel.FromDb(ts)).FirstOrDefault();
+                    data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight => flight.Day == day).Where(flight => flight.FromStoppageId == fromStopage.Id).Where(flight => flight.ToStoppageId == toStopage.Id).Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+                }
+            }
+            else
+            {
+                data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Select(transports => TransportScheduleModel.FromDb(transports, true)).ToList();
+            }
+            
+            var flights = new List<object>();
+            foreach (var f in data)
+            {
+
+                var FromRootFare = f.FromStoppage.FareFromRoot;
+                var ToRootFare = f.ToStoppage.FareFromRoot;
+                var baseFare = Math.Abs((FromRootFare ?? -1) - (ToRootFare ?? -1));
+
+                var bcost = baseFare * 15;
+
+                var ecost = baseFare * 10;
+
+                var pecost = baseFare * 12;
 
 
 
+                var flight = new
+                {
+                    Flight_Id = f.Id,
+                    Flight_Name = f.Transport.Name,
+                    FromStopage = f.FromStoppage.Name,
+                    ToStopage = f.ToStoppage.Name,
+                    Day = f.Day,
+                    Time = (f.Time) / 100,
+                    MaximumSeat = f.Transport.MaximumSeat,
+                    EconomyClass_Cost = ecost,
+                    PremiumEconomyClass_Cost = pecost,
+                    BusinessClass_Cost = bcost,
+                };
+                flights.Add(flight);
+
+            }
+            return flights;
+
+        }
+
+        public static string BookTicket(int UserId, int FlightId, string date,string AgeClass, string SeatClass)
+        {
+            DateTime d = Convert.ToDateTime(date);
+            var user = DataAccessFactory.UserDataAccess().GetAll().Where(u => u.Id == UserId).Select(u => UserModel.FromDb(u)).FirstOrDefault();
+            var data = DataAccessFactory.TransportScheduleDataAccess().GetAll().Where(flight=> flight.Id == FlightId).Select(transports => TransportScheduleModel.FromDb(transports, true)).FirstOrDefault();
+            var ageclass = DataAccessFactory.AgeClassEnumDataAccess().GetAll().Where(a =>a.Value == AgeClass).Select(a => AgeClassEnumModel.FromDb(a)).FirstOrDefault();
+            var seatclass = DataAccessFactory.SeatClassEnumDataAccess().GetAll().Where(s => s.Value == SeatClass).Select(s => SeatClassEnumModel.FromDb(s)).FirstOrDefault();
+            if (data != null && user != null)
+            {
+                var ticket = new PurchasedTicketModel();
+                ticket.PurchasedBy = user.Id;
+                ticket.FromStoppageId = data.FromStoppageId ?? 0;
+                ticket.ToStoppageId = data.ToStoppageId ?? 0;
+
+                var tkt= DataAccessFactory.TicketNewDataAccess().Add(ticket.GetDbModel());
+
+                var seat = new SeatInfoModel();
+                seat.StartTime= d;
+                seat.TicketId = tkt.Id;
+                seat.TransportId = data.TransportId;
+                seat.AgeClass = ageclass.Id;
+                seat.SeatClass = seatclass.Id;
+                seat.Status = "Booked";
+                DataAccessFactory.SeatInfoDataAccess().Add(seat.GetDbModel());
+
+                return "Ticket Booked Successfully";
+            }
+
+            return "Ticket Not Booked";
+        }
+
+        public static List<object> PendingTicketList()
+        {
+            var tickets = DataAccessFactory.SeatInfoDataAccess().GetAll().Where(t=> t.Status == "Pending Cancelation").Select(s => SeatInfoModel.FromDb(s,true)).ToList();
+
+            var tkts = new List<object>();
+            foreach(var t in tickets)
+            {
+
+                var tkt = new
+                {
+                    TicketId = t.TicketId,
+                    FlightName = t.Transport.Name,
+                    FromStopage = t.PurchasedTicket.FromStoppage.Name,
+                    ToStopage = t.PurchasedTicket.ToStoppage.Name,
+                    PurchasedBy = t.PurchasedTicket.PurchasedByUser.Name,
+                    StartTime = t.StartTime,
+                    SeatClass = t.SeatClassEnum.Value,
+                    AgeClass = t.AgeClassEnum.Value,
+                    TicketStatus = t.Status
+                };
+
+                tkts.Add(tkt);
+
+            }
+
+            return tkts;
+
+        }
+
+        public static string CancelPendingTicket(int id)
+        {
+            var tickett = (from t in DataAccessFactory.TicketDataAccess().GetAll() where t.Id == id select PurchasedTicketModel.FromDb(t)).FirstOrDefault();
+            if(tickett != null)
+            {
+                var seat = (from s in DataAccessFactory.SeatInfoDataAccess().GetAll() where s.TicketId == id select SeatInfoModel.FromDb(s)).FirstOrDefault();
 
 
+                if (seat != null) DataAccessFactory.SeatInfoDataAccess().Delete(seat.Id);
+
+
+                if (tickett != null) DataAccessFactory.TicketDataAccess().Delete(tickett.Id);
+
+
+
+                return "Ticket Cancel Successfully";
+            }
+
+            return "Ticket Cannot be Canceled";
+        }
 
 
     }

@@ -8,6 +8,7 @@ using Web_API.DTOs;
 
 namespace Web_API.Controllers
 {
+    [ManagerAccess]
     public class ManagerController : ApiController
     {
 
@@ -95,7 +96,7 @@ namespace Web_API.Controllers
 
         [Route("api/manager/cancelticket/{uid}/{tid}")]
         [HttpGet]
-        public HttpResponseMessage FlightList(int uid, int tid)
+        public HttpResponseMessage CancelTicket(int uid, int tid)
         {
             return Request.CreateResponse(HttpStatusCode.OK, ManagerService.CancelTicket(uid,tid));
 
@@ -124,6 +125,42 @@ namespace Web_API.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, ManagerService.AircraftListSearch(aircraft.Name));
         }
+
+        [Route("api/manager/flightsearch")]
+        [HttpPost]
+        public HttpResponseMessage FlightSearch([FromBody] FlightSearchDto flightSearch)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.FlightSearch(flightSearch.Date, flightSearch.FromStopage,flightSearch.ToStopage));
+        }
+
+        [Route("api/manager/bookticket")]
+        [HttpPost]
+        public HttpResponseMessage BookTicket([FromBody] BookTicketDto bookTicketDto)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.BookTicket(bookTicketDto.UserId, bookTicketDto.FlightId, bookTicketDto.Date, bookTicketDto.AgeClass, bookTicketDto.SeatClass));
+
+        }
+
+        [Route("api/manager/pendingticketlist")]
+        [HttpGet]
+        public HttpResponseMessage PendingTicketList()
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.PendingTicketList());
+
+        }
+
+        [Route("api/manager/cancelpendingticket/{tid}")]
+        [HttpGet]
+        public HttpResponseMessage CancelPendingTicket(int tid)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.CancelPendingTicket(tid));
+
+        }
+
+
+
+
+
 
 
 

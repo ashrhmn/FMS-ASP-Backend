@@ -139,7 +139,10 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
     <Compile Include="DTOs\AircraftlistSearchDto.cs" />
+    <Compile Include="DTOs\BookTicketDto.cs" />
     <Compile Include="DTOs\ChangePassDto.cs" />
+    <Compile Include="DTOs\DateTimeDto.cs" />
+    <Compile Include="DTOs\FlightSearchDto.cs" />
     <Compile Include="DTOs\LoginDto.cs" />
     <Compile Include="DTOs\ProfileDto.cs" />
     <Compile Include="DTOs\SearchWithNameDto.cs" />
