@@ -433,6 +433,7 @@ namespace BLL.Services
         {
             var role = (from r in DataAccessFactory.UserRoleEnumDataAccess().GetAll() where r.Value == userModel.RoleValue select UserRoleEnumModel.FromDb(r)).FirstOrDefault();
             userModel.Role = role.Id;
+            userModel.Password = BCrypt.Net.BCrypt.HashPassword(userModel.Password, 12);
 
             if (DataAccessFactory.UserDataAccess().Add(userModel.GetDbModel()))
             {
