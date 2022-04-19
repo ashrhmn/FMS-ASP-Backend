@@ -24,10 +24,10 @@ namespace BLL.Entities
                 Id = purchasedTicket.Id, FromStoppageId = purchasedTicket.FromStoppageId,
                 ToStoppageId = purchasedTicket.ToStoppageId, PurchasedBy = purchasedTicket.PurchasedBy
             };
+            model.PurchasedByUser = UserModel.FromDb(purchasedTicket.User);
             if (!extended) return model;
             model.FromStoppage = StoppageModel.FromDb(purchasedTicket.Stoppage);
             model.ToStoppage = StoppageModel.FromDb(purchasedTicket.Stoppage1);
-            model.PurchasedByUser = UserModel.FromDb(purchasedTicket.User);
             model.SeatInfos = purchasedTicket.SeatInfos.Select(si => SeatInfoModel.FromDb(si)).ToList();
             return model;
         }

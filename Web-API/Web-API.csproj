@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44385</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -126,6 +125,7 @@
     <Compile Include="Auth\JwtManage.cs" />
     <Compile Include="Auth\ManagerAccess.cs" />
     <Compile Include="Auth\UserAccess.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CityController.cs" />
@@ -142,6 +142,7 @@
     <Compile Include="DTOs\ChangePassDto.cs" />
     <Compile Include="DTOs\LoginDto.cs" />
     <Compile Include="DTOs\ProfileDto.cs" />
+    <Compile Include="DTOs\SearchWithNameDto.cs" />
     <Compile Include="DTOs\TransportDto.cs" />
     <Compile Include="DTOs\UListSearchDto.cs" />
     <Compile Include="DTOs\UpdateTickettDto.cs" />
