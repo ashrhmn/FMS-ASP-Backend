@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading.Tasks;
 using BLL.Entities;
 using DAL;
 
@@ -52,8 +50,8 @@ namespace BLL.Services
 
         public static ResponseModel SendVerificationMail(string to)
         {
-            var user = UserService.GetAllUsers().FirstOrDefault(u=>u.Email==to);
-            if (user == null) return new ResponseModel(){Message = "User not found with the email"};
+            var user = UserService.GetAllUsers().FirstOrDefault(u => u.Email == to);
+            if (user == null) return new ResponseModel() { Message = "User not found with the email" };
             var token = Guid.NewGuid();
             var model = new EmailVerifyTokenModel()
             {
@@ -61,7 +59,20 @@ namespace BLL.Services
                 UserId = user.Id,
             };
             var isAdded = EmailVerifyTokenService.AddToken(model);
-            return !isAdded ? new ResponseModel(){Message = "Verification token adding failed"} : SendMail(to, "fmslaravel@gmail.com", "Verify Your FMS Account", "http://localhost:9112/api/auth/verify-email/"+token.ToString());
+            return !isAdded ? new ResponseModel() { Message = "Verification token adding failed" } : SendMail(to, "fmslaravel@gmail.com", "Verify Your FMS Account", "http://localhost:9112/api/auth/verify-email/" + token.ToString());
+        }
+        public static ResponseModel SendVerificationMail(int userId)
+        {
+            var user = UserService.GetUser(userId);
+            if (user == null) return new ResponseModel() { Message = "User not found" };
+            var token = Guid.NewGuid();
+            var model = new EmailVerifyTokenModel()
+            {
+                Token = token.ToString(),
+                UserId = user.Id,
+            };
+            var isAdded = EmailVerifyTokenService.AddToken(model);
+            return !isAdded ? new ResponseModel() { Message = "Verification token adding failed" } : SendMail(user.Email, "fmslaravel@gmail.com", "Verify Your FMS Account", "http://localhost:9112/api/auth/verify-email/" + token.ToString());
         }
 
         public static ResponseModel VerifyEmail(string token)

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
 using BLL.Services;
+using Web_API.Auth;
 using Web_API.DTOs;
 
 namespace Web_API.Controllers
@@ -17,8 +15,9 @@ namespace Web_API.Controllers
         [HttpGet]
         public HttpResponseMessage Profile()
         {
-            
-            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.ManagerProfile(24));
+            var user = JwtManage.LoggedInUser(Request);
+            if(user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "User not loggedin");
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.ManagerProfile(user.Id));
         }
 
         [Route("api/manager/editprofile")]
@@ -34,7 +33,9 @@ namespace Web_API.Controllers
         [HttpPost]
         public HttpResponseMessage ChangePass(ChangePassDto changePass)
         {
-            return Request.CreateResponse(HttpStatusCode.Created, ManagerService.ChangePass(24, changePass.OldPassword, changePass.Password, changePass.ConPassword));
+            var user = JwtManage.LoggedInUser(Request);
+            if (user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "User not loggedin");
+            return Request.CreateResponse(HttpStatusCode.Created, ManagerService.ChangePass(user.Id, changePass.OldPassword, changePass.Password, changePass.ConPassword));
         }
 
         [Route("api/manager/userlistsearch")]
@@ -99,6 +100,33 @@ namespace Web_API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, ManagerService.CancelTicket(uid,tid));
 
         }
+
+
+        [Route("api/manager/adduser")]
+        [HttpPost]
+        public HttpResponseMessage AddUser([FromBody] UserModel userModel)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.AddUser(userModel));
+        }
+
+        [Route("api/manager/deleteuser/{id}")]
+        [HttpGet]
+        public HttpResponseMessage DeleteUser(int id)
+        {
+            return ManagerService.DeleteUser(id)
+                ? Request.CreateResponse(HttpStatusCode.Created, "Deleted User Account Successfully")
+                : Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Error deleting User");
+        }
+
+        [Route("api/manager/aircraftlistsearch")]
+        [HttpPost]
+        public HttpResponseMessage AircraftList([FromBody] AircraftlistSearchDto aircraft)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, ManagerService.AircraftListSearch(aircraft.Name));
+        }
+
+
+
 
 
 

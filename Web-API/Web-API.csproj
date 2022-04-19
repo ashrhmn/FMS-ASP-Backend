@@ -123,8 +123,10 @@
     <Compile Include="Auth\AuthPayload.cs" />
     <Compile Include="Auth\FMAccess.cs" />
     <Compile Include="Auth\JwtManage.cs" />
+    <Compile Include="Auth\ManagerAccess.cs" />
     <Compile Include="Auth\UserAccess.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AdminDashboardController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CityController.cs" />
     <Compile Include="Controllers\FMController.cs" />
@@ -136,10 +138,12 @@
     <Compile Include="Controllers\TransportScheduleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UserDashboardController.cs" />
+    <Compile Include="DTOs\AircraftlistSearchDto.cs" />
     <Compile Include="DTOs\ChangePassDto.cs" />
     <Compile Include="DTOs\LoginDto.cs" />
     <Compile Include="DTOs\ProfileDto.cs" />
     <Compile Include="DTOs\SearchWithNameDto.cs" />
+    <Compile Include="DTOs\TransportDto.cs" />
     <Compile Include="DTOs\UListSearchDto.cs" />
     <Compile Include="DTOs\UpdateTickettDto.cs" />
     <Compile Include="Global.asax.cs">

@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL.Database;
 
 namespace DAL.Repo
 {
-    public class TransportRepo : IRepository<Transport, int>
+    public class TransportRepo : IRepository<Transport, int>, IFm<Transport, int>
     {
         private readonly FmsEntities db;
 
@@ -43,6 +40,12 @@ namespace DAL.Repo
         public List<Transport> GetAll()
         {
             return db.Transports.ToList();
+        }
+
+        public List<Transport> GetAll(int cid)
+        {
+            var trns = (from t in db.Transports where t.CreatedBy == cid select t).ToList();
+            return trns;
         }
 
         public Transport GetById(int id)

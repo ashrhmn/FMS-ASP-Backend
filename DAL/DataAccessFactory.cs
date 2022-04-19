@@ -35,6 +35,10 @@ namespace DAL
         {
             return new TransportRepo(Db);
         }
+        public static IFm<Transport, int> UTransportDataAccess()
+        {
+            return new TransportRepo(Db);
+        }
         public static IRepository<TransportSchedule, int> TransportScheduleDataAccess()
         {
             return new TransportScheduleRepo(Db);

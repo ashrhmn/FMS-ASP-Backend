@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -36,7 +33,7 @@ namespace Web_API.Controllers
             var isUserAdded = UserService.AddUser(userModel);
             if(!isUserAdded) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Sign up failed");
             ResponseModel response = null;
-            if (userModel.Email != null) response = AuthService.SendVerificationMail(userModel.Email);
+            if (userModel.Email != null) response = AuthService.SendVerificationMail(userModel.Id);
             return Request.CreateResponse(HttpStatusCode.Created, new { userModel, response });
         }
 
@@ -44,8 +41,9 @@ namespace Web_API.Controllers
         [HttpGet]
         public HttpResponseMessage GetCurrentUser()
         {
-            if(Request.Headers.Authorization==null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Token Not supplied");
-            var payload = JwtManage.LoggedInUser((Request.Headers.Authorization).ToString());
+            // if(Request.Headers.Authorization==null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Token Not supplied");
+            // var payload = JwtManage.LoggedInUser((Request.Headers.Authorization).ToString());
+            var payload = JwtManage.LoggedInUser(Request);
             if (payload == null) return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Token Invalid");
             var user = UserService.GetUser(payload.Id);
             if (user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Unauthorized User");
@@ -78,7 +76,7 @@ namespace Web_API.Controllers
             var user = UserService.GetUser(payload.Id);
             if (user == null) return Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Unauthorized User");
             EmailVerifyTokenService.DeleteTokenByUser(user.Id);
-            return user.Email==null ? Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalid Email") : Request.CreateResponse(HttpStatusCode.OK, AuthService.SendVerificationMail(user.Email));
+            return user.Email==null ? Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "Invalid Email") : Request.CreateResponse(HttpStatusCode.OK, AuthService.SendVerificationMail(user.Id));
         }
     }
 }

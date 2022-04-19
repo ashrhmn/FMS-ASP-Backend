@@ -108,6 +108,7 @@
     <Compile Include="Database\UserRoleEnum.cs">
       <DependentUpon>FmsModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="IFm.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repo\AgeClassEnumRepo.cs" />

@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\AgeClassEnumModel.cs" />
+    <Compile Include="Entities\BookedTicketModel.cs" />
     <Compile Include="Entities\CityModel.cs" />
     <Compile Include="Entities\EmailVerifyTokenModel.cs" />
     <Compile Include="Entities\FamilyModel.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Services\TransportScheduleService.cs" />
     <Compile Include="Services\TransportService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\UtilsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
