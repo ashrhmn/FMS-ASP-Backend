@@ -6,10 +6,12 @@ using System.Net.Http;
 using System.Web.Http;
 using BLL.Entities;
 using BLL.Services;
+using Web_API.Auth;
 using Web_API.DTOs;
 
 namespace Web_API.Controllers
 {
+    [AdminAccess]
     public class AdminController : ApiController
     {
         [Route("api/admin/getallusers")]
@@ -208,6 +210,13 @@ namespace Web_API.Controllers
         {
             return Request.CreateResponse(HttpStatusCode.OK, AdminService.BookedSeatsForFlight(id));
         }
+        [Route("api/admin/purchasedticketsforuser/{id}")]
+        [HttpGet]
+        public HttpResponseMessage PurchasedTickets(int id)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, AdminService.PurchasedTicketsForUser(id));
+        }
+
         [Route("api/admin/searchflight")]
         [HttpPost]
         public HttpResponseMessage SearchFlight([FromBody] SearchWithNameDto a)
@@ -222,6 +231,7 @@ namespace Web_API.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, AdminService.SearchUser(a.Name));
 
         }
+
     }
 
 }
